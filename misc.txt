@@ -1,0 +1,5 @@
+
+Global Shared Libraries
+@Refer {@link https://jenkins.io/doc/book/pipeline/shared-libraries/#global-shared-libraries}
+There are several places where Shared Libraries can be defined, depending on the use-case.
+Manage Jenkins » Configure System » Global Pipeline Libraries as many libraries as necessary can be configured.
