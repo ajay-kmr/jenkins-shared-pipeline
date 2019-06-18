@@ -22,7 +22,7 @@ class Prepare extends PipeLineStepImpl {
             script.stage(stageName) {
                 script.echo "Inside Prepare stage"
 //                checkout scm
-//                gitCheckout()
+                gitCheckout()
                 collectGitProperties()
                 collectGradleProperties()
                 if (!isEligibleForBuild()) {
@@ -37,6 +37,9 @@ class Prepare extends PipeLineStepImpl {
 
     private void gitCheckout() {
         script.echo "Inside gitCheckout method:- com.example.pipeline.step.Prepare.gitCheckout"
+
+        script.checkout script.scm
+
         String currentBranchName = script.sh(returnStdout: true, script: "git branch")
         script.echo "Current branch name from git checkout command:-"
         script.echo currentBranchName
