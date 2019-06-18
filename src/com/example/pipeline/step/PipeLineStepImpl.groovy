@@ -1,11 +1,10 @@
 package com.example.pipeline.step
 
 import com.example.pipeline.dto.BuildRequestDTO
-import com.example.pipeline.dto.ResponseDTO
 import com.example.pipeline.dto.SharedProperties
 import com.example.pipeline.enums.BuildStatus
 
-abstract class PipeLineStepImpl implements IPipeLineStep{
+abstract class PipeLineStepImpl implements IPipeLineStep {
 
 //    @Delegate
     CommonCommands commonCommands
@@ -24,9 +23,6 @@ abstract class PipeLineStepImpl implements IPipeLineStep{
         this.nodeName = nodeName
         this.stageName = stageName
     }
-
-    abstract ResponseDTO run();
-
 
     def executeAndReturnStdOutput(String command) {
         execute(command, true)

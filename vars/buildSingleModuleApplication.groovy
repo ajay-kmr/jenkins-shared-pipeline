@@ -20,7 +20,7 @@ def call(Closure buildConfig) {
     SharedProperties sharedProperties = new SharedProperties(this, buildRequestDTO)
 
     List<IPipeLineStep> pipeLineSteps = [
-            new Prepare(sharedProperties),
+            new Prepare(sharedProperties, this),
 
     ]
     PipeLineStepRunner stepRunner = new PipeLineStepRunner(this, pipeLineSteps)
