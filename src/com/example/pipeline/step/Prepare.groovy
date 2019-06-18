@@ -5,11 +5,9 @@ import com.example.pipeline.dto.SharedProperties
 import com.example.pipeline.enums.BuildStatus
 
 class Prepare extends PipeLineStepImpl {
-    def script
 
     Prepare(SharedProperties sharedProperties) {
         super(sharedProperties, 'any', 'docker', 'Prepare')
-        this.script = sharedProperties.jenkinsScript
     }
 
     @Override

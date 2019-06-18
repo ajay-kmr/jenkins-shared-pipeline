@@ -11,6 +11,7 @@ abstract class PipeLineStepImpl implements IPipeLineStep {
 
 //    @Delegate
     SharedProperties sharedProperties
+    def script
 
     String agentName
     String nodeName
@@ -18,10 +19,13 @@ abstract class PipeLineStepImpl implements IPipeLineStep {
 
     PipeLineStepImpl(SharedProperties sharedProperties, String agentName, String nodeName, String stageName) {
         this.sharedProperties = sharedProperties
-        this.commonCommands = new CommonCommands(jenkinsScript: sharedProperties.jenkinsScript)
+        this.script = sharedProperties.jenkinsScript
+        this.commonCommands = new CommonCommands(jenkinsScript: script)
         this.agentName = agentName
         this.nodeName = nodeName
         this.stageName = stageName
+
+//        script.echo script.properties
     }
 
     def executeAndReturnStdOutput(String command) {
