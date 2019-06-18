@@ -18,25 +18,34 @@ class Prepare extends PipeLineStepImpl {
 
         ResponseDTO<String> responseDTO = new ResponseDTO<>(status: true, message: "Dummy Message")
 //        script.node(nodeName) {
-            script.stage(stageName) {
-                script.echo "Inside Prepare stage"
+        script.stage(stageName) {
+            script.echo "Inside Prepare stage"
 //                checkout scm
-                gitCheckout()
-                collectGitProperties()
-                collectGradleProperties()
-                if (!isEligibleForBuild()) {
-                    script.echo("This build is not eligible for deployment.. Aborting....")
-                    buildStatus = BuildStatus.ABORTED
-                    script.error("Aborting")
-                }
+            gitCheckout()
+            collectGitProperties()
+            collectGradleProperties()
+            if (!isEligibleForBuild()) {
+                script.echo("This build is not eligible for deployment.. Aborting....")
+                buildStatus = BuildStatus.ABORTED
+                script.error("Aborting")
             }
+        }
 //        }
         return responseDTO
     }
 
     private void gitCheckout() {
         script.echo "Inside gitCheckout method:- com.example.pipeline.step.Prepare.gitCheckout"
-        execute("git checkout ${script.BRANCH_NAME}")
+        String currentBranchName = executeAndReturnStdOutput("git branch")
+        script.echo "Current branch name from git checkout command:-"
+        script.echo currentBranchName
+
+        script.echo "script.BRANCH_NAME:- "
+        script.echo script.BRANCH_NAME
+
+        if (currentBranchName != script.BRANCH_NAME) {
+            execute("git checkout ${script.BRANCH_NAME}")
+        }
     }
 
     private void collectGitProperties() {
