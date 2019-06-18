@@ -1,9 +1,7 @@
 package com.example.pipeline.dto
 
 import com.example.pipeline.step.PipeLineStep
-import groovy.transform.ToString
 
-@ToString(includeNames = true, includeFields = true)
 class BuildRequestDTO {
 
     String applicationName
@@ -12,4 +10,13 @@ class BuildRequestDTO {
     List<PipeLineStep> pipeLineSteps
 
 
+    @Override
+    String toString() {
+        return "BuildRequestDTO{" +
+                "applicationName='" + applicationName + '\'' +
+                ", serviceType='" + serviceType + '\'' +
+                ", deploymentRegion='" + deploymentRegion + '\'' +
+                ", pipeLineSteps=" + pipeLineSteps +
+                '}'
+    }
 }
