@@ -1,6 +1,6 @@
 import com.example.pipeline.dto.BuildRequestDTO
 import com.example.pipeline.dto.SharedProperties
-import com.example.pipeline.step.PipeLineStepImpl
+import com.example.pipeline.step.IPipeLineStep
 import com.example.pipeline.step.PipeLineStepRunner
 import com.example.pipeline.step.Prepare
 
@@ -12,14 +12,14 @@ def call(Closure buildConfig) {
     buildConfig()
 
     echo "The config Detail populated"
-    echo "The config Detail populated on Closure Delegate is ${buildRequestDTO}"
+    echo buildRequestDTO.toString()
 
     buildRequestDTO
 
     echo("Building project with request:- ${buildRequestDTO}")
     SharedProperties sharedProperties = new SharedProperties(this, buildRequestDTO)
 
-    List<PipeLineStepImpl> pipeLineSteps = [
+    List<IPipeLineStep> pipeLineSteps = [
             new Prepare(sharedProperties),
 
     ]

@@ -13,6 +13,7 @@ class Prepare extends PipeLineStepImpl {
     ResponseDTO run() {
         echo "Inside Run method of Prepare stage:- com.example.pipeline.step.Prepare.run"
 
+        ResponseDTO<String> responseDTO = new ResponseDTO<>(status: true, message: "Dummy Message")
         node(nodeName) {
             stage(stageName) {
                 echo "Inside Prepare stage"
@@ -27,7 +28,7 @@ class Prepare extends PipeLineStepImpl {
                 }
             }
         }
-
+        return responseDTO
     }
 
     private void gitCheckout() {

@@ -5,7 +5,7 @@ import com.example.pipeline.dto.ResponseDTO
 import com.example.pipeline.dto.SharedProperties
 import com.example.pipeline.enums.BuildStatus
 
-abstract class PipeLineStepImpl {
+abstract class PipeLineStepImpl implements IPipeLineStep{
 
 //    @Delegate
     CommonCommands commonCommands

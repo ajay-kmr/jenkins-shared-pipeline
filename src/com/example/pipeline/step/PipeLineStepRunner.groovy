@@ -3,10 +3,10 @@ package com.example.pipeline.step
 import com.example.pipeline.enums.BuildStatus
 
 class PipeLineStepRunner {
-    List<PipeLineStepImpl> pipeLineSteps
+    List<IPipeLineStep> pipeLineSteps
     def script
 
-    PipeLineStepRunner(script, List<PipeLineStepImpl> pipeLineSteps) {
+    PipeLineStepRunner(script, List<IPipeLineStep> pipeLineSteps) {
         this.pipeLineSteps = pipeLineSteps
         this.script = script
     }
