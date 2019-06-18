@@ -35,7 +35,9 @@ abstract class PipeLineStepImpl implements IPipeLineStep {
         script.echo "Executing shell script command at com/example/pipeline/step/PipeLineStepImpl.groovy:33"
         script.echo command
         script.echo returnStdOut.toString()
-        script.sh(script: command, returnStdout: returnStdOut)
+//        script.sh(script: command, returnStdout: returnStdOut)
+//        script.sh label: '', returnStdout: returnStdOut, script: command
+        script.sh encoding: 'UTF-8', label: 'Executing-Shell-Script', returnStdout: returnStdOut, script: command
     }
 
 /** Common Properties --STARTS-- **/
