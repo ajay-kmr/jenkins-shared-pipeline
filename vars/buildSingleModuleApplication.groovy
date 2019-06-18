@@ -5,16 +5,29 @@ import com.example.pipeline.step.PipeLineStepRunner
 import com.example.pipeline.step.Prepare
 
 def call(Closure buildConfig) {
-    BuildRequestDTO buildRequestDTO = createBuildRequest(buildConfig)
-    println("Building project with request:- ${buildRequestDTO}")
-    SharedProperties sharedProperties = new SharedProperties(this, buildRequestDTO)
+    pipeline {
+        agent any
+        stages {
+            stage('Ajay Even Stage') {
+                steps {
+                    echo "Ajay The build number is even"
+                }
+            }
 
-    List<PipeLineStep> pipeLineSteps = [
-            new Prepare(sharedProperties),
+            BuildRequestDTO buildRequestDTO = createBuildRequest(buildConfig)
+            println("Building project with request:- ${buildRequestDTO}")
+            SharedProperties sharedProperties = new SharedProperties(this, buildRequestDTO)
 
-    ]
-    PipeLineStepRunner stepRunner = new PipeLineStepRunner(this, pipeLineSteps)
-    stepRunner.run()
+            List<PipeLineStep> pipeLineSteps = [
+                    new Prepare(sharedProperties),
+
+            ]
+            PipeLineStepRunner stepRunner = new PipeLineStepRunner(this, pipeLineSteps)
+            stepRunner.run()
+        }
+    }
+
+
 }
 
 private static BuildRequestDTO createBuildRequest(Closure buildConfig) {

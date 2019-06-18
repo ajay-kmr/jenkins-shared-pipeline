@@ -3,3 +3,21 @@ Global Shared Libraries
 @Refer {@link https://jenkins.io/doc/book/pipeline/shared-libraries/#global-shared-libraries}
 There are several places where Shared Libraries can be defined, depending on the use-case.
 Manage Jenkins » Configure System » Global Pipeline Libraries as many libraries as necessary can be configured.
+
+
+https://github.com/oufti-playground/lab-vm/blob/master/docker/jenkins/ref/init.groovy.d/addSharedLibrary.groovy
+
+
+If you see any issue related to git checkout during pipeline creation or shared library creation then:-
+1) Go to  Manage Jenkins --> Configure System i.e
+    http://localhost:8080/configure
+ 2) Set Up GitHub Details and test it using button- "Test Connection" over there
+ 3) Once it is done, go to- "Global Pipeline Libraries" and then:-
+        a) configure it proper library name eg buildSingleModuleApplication
+        b) Default version can be any branch name eg master
+        c) Select "Retrieval method" as "Modern SCM"
+        d) Select "Source Code Management" as "GitHub"
+        e) Provide the GitHub credentials with username and password
+        f) Provide "Owner" as the GitHub user name eg- ajay-kmr
+        g) Select the correct Repository from dropdown where this library exist
+        h) Click on apply and
