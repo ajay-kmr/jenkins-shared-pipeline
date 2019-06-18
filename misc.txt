@@ -33,3 +33,10 @@ Known error/exception handling:-
 
     We get this issue when the class i.e PipeLineStep.groovy has groovy's annotation which is not supported
      by Jenkins eg @groovy.transform.ToString, @groovy.lang.Delegate etc
+
+2) If you are unable to run the sh command, then Perhaps you forgot to surround the code with a step that provides this, such as: node
+3) If you are unable to resolve the github.com then perhaps you have switched the network (internet).
+    Either switchback to the same network at which u have configured your git or re-update your git config.
+
+4) fatal: not a git repository (or any parent up to mount point /var)
+   Stopping at filesystem boundary (GIT_DISCOVERY_ACROSS_FILESYSTEM not set).

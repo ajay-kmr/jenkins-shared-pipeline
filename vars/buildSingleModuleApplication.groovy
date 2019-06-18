@@ -6,17 +6,7 @@ import com.example.pipeline.step.Prepare
 
 def call(Closure buildConfig) {
     echo "******************** Building project using script:- buildSingleModuleApplication ********************"
-    def buildRequestDTO = new BuildRequestDTO()
-    buildConfig.resolveStrategy = Closure.DELEGATE_FIRST
-    buildConfig.delegate = buildRequestDTO
-    buildConfig()
-
-    echo "The config Detail populated"
-    echo buildRequestDTO.toString()
-
-    buildRequestDTO
-
-    echo("Building project with request:- ${buildRequestDTO}")
+    BuildRequestDTO buildRequestDTO = createBuildRequest(buildConfig)
     SharedProperties sharedProperties = new SharedProperties(this, buildRequestDTO)
 
     List<IPipeLineStep> pipeLineSteps = [
@@ -26,34 +16,16 @@ def call(Closure buildConfig) {
     PipeLineStepRunner stepRunner = new PipeLineStepRunner(this, pipeLineSteps)
 
     stepRunner.run()
-
-
-/*
-    pipeline {
-        agent any
-        stages {
-            stage('Ajay Even Stage') {
-                steps {
-                    echo "Ajay The build number is even"
-                }
-            }
-            stepRunner.run()
-        }
-    }
-*/
-
 }
 
-/*
-
 private static BuildRequestDTO createBuildRequest(Closure buildConfig) {
-    Map configDelegate = [:]
+    def buildRequestDTO = new BuildRequestDTO()
     buildConfig.resolveStrategy = Closure.DELEGATE_FIRST
-    buildConfig.delegate = configDelegate
+    buildConfig.delegate = buildRequestDTO
     buildConfig()
 
-    echo "The config Detail populated on Closure Delegate is ${configDelegate}"
+    echo "The config Detail populated"
+    echo buildRequestDTO.toString()
 
-    BuildRequestDTO buildRequestDTO = new BuildRequestDTO(configDelegate)
-    buildRequestDTO
-}*/
+    return buildRequestDTO
+}

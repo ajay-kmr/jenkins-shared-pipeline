@@ -22,7 +22,7 @@ class Prepare extends PipeLineStepImpl {
             script.stage(stageName) {
                 script.echo "Inside Prepare stage"
 //                checkout scm
-                gitCheckout()
+//                gitCheckout()
                 collectGitProperties()
                 collectGradleProperties()
                 if (!isEligibleForBuild()) {
