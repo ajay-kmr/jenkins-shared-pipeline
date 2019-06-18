@@ -12,15 +12,20 @@ class PipeLineStepRunner {
     }
 
     void run() {
+        script.echo "Inside PipeLineStepRunner"
         try {
             pipeLineSteps.each {
                 //TODO:- Add pre run activities after each run
+                script.echo "Before running ${it.stageName}"
                 it.run()
+                script.echo "After running ${it.stageName}"
                 //TODO:- Add post run activities after each step
             }
         } catch (InterruptedException ignored) {
+            ignored.printStackTrace()
             script.currentBuild.result = BuildStatus.SUCCESS
         } catch (Exception ignored) {
+            ignored.printStackTrace()
             if (script.env.ABORT) {
                 script.currentBuild.result = BuildStatus.ABORTED
             } else {

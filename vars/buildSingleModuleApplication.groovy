@@ -6,11 +6,12 @@ import com.example.pipeline.step.Prepare
 
 def call(Closure buildConfig) {
     echo "******************** Building project using script:- buildSingleModuleApplication ********************"
-    BuildRequestDTO buildRequestDTO = new BuildRequestDTO()
+    def buildRequestDTO = new BuildRequestDTO()
     buildConfig.resolveStrategy = Closure.DELEGATE_FIRST
     buildConfig.delegate = buildRequestDTO
     buildConfig()
 
+    echo "The config Detail populated"
     echo "The config Detail populated on Closure Delegate is ${buildRequestDTO}"
 
     buildRequestDTO

@@ -13,6 +13,7 @@ class Prepare extends PipeLineStep {
     ResponseDTO run() {
         node(nodeName) {
             stage(stageName) {
+                echo "Inside Prepare stage"
 //                checkout scm
                 gitCheckout()
                 collectGitProperties()
