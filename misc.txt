@@ -40,3 +40,5 @@ Known error/exception handling:-
 
 4) fatal: not a git repository (or any parent up to mount point /var)
    Stopping at filesystem boundary (GIT_DISCOVERY_ACROSS_FILESYSTEM not set).
+   Solution:- Perhaps you forgot to checkout your project using command:- checkout scm
+

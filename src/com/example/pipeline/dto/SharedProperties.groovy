@@ -27,6 +27,14 @@ class SharedProperties {
             }
             return version
         }
+
+        @Override
+        String toString() {
+            return "GradleProperties{" +
+                    "applicationName='" + applicationName + '\'' +
+                    ", version='" + version + '\'' +
+                    '}'
+        }
     }
 
     class GitProperties {
@@ -35,5 +43,16 @@ class SharedProperties {
         String committerEmail
         String commitDate
         String commitMessage
+
+        @Override
+        String toString() {
+            return "GitProperties{" +
+                    "remoteOriginUrl='" + remoteOriginUrl + '\'' +
+                    ", committerName='" + committerName + '\'' +
+                    ", committerEmail='" + committerEmail + '\'' +
+                    ", commitDate='" + commitDate + '\'' +
+                    ", commitMessage='" + commitMessage + '\'' +
+                    '}'
+        }
     }
 }

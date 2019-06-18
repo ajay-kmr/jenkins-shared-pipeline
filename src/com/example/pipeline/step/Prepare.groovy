@@ -60,7 +60,8 @@ class Prepare extends PipeLineStepImpl {
         gitProperties.commitDate = script.sh(returnStdout: true, script: "git log -1 --pretty=format:'%ad'")
         gitProperties.commitMessage = script.sh(returnStdout: true, script: "git log -1 --format='%B'")
 
-
+        script.echo "The collected Git Properties are:-"
+        script.echo gitProperties.toString()
     }
 
     private void collectGradleProperties() {
@@ -74,12 +75,18 @@ class Prepare extends PipeLineStepImpl {
             Map gradlePropertiesAsMap = script.readProperties file: "gradle.properties"
             gradleProperties.version = gradlePropertiesAsMap['version']
         }
+
+        script.echo "The collected Gradle Properties are:-"
+        script.echo gradleProperties.toString()
     }
 
     private boolean isEligibleForBuild() {
+        boolean isEligible = true
         //TODO:- Add condition if this commit is eligible for build.
         //Eg:- build should not proceed, If it is triggered by Jenkins job after successful build to update the version
         // Certain branch/user can be excluded from build
-        return true
+        script.echo "Is eligible to continue further with build process:- "
+        script.echo isEligible.toString()
+        return isEligible
     }
 }
