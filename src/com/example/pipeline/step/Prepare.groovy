@@ -36,7 +36,7 @@ class Prepare extends PipeLineStepImpl {
 
     private void gitCheckout() {
         script.echo "Inside gitCheckout method:- com.example.pipeline.step.Prepare.gitCheckout"
-        String currentBranchName = executeAndReturnStdOutput("git branch")
+        String currentBranchName = script.sh(returnStdout: true, script: "git branch")
         script.echo "Current branch name from git checkout command:-"
         script.echo currentBranchName
 
@@ -44,26 +44,26 @@ class Prepare extends PipeLineStepImpl {
         script.echo script.BRANCH_NAME
 
         if (currentBranchName != script.BRANCH_NAME) {
-            execute("git checkout ${script.BRANCH_NAME}")
+            script.sh "git checkout ${script.BRANCH_NAME}"
         }
     }
 
     private void collectGitProperties() {
-        gitProperties.remoteOriginUrl = executeAndReturnStdOutput("git config --get remote.origin.url")
+        gitProperties.remoteOriginUrl = script.sh(returnStdout: true, script: "git config --get remote.origin.url")
         //Refer:- @link{https://git-scm.com/docs/pretty-formats}
-        gitProperties.committerName = executeAndReturnStdOutput("git log -1 --pretty=format:'%an'")
-        gitProperties.committerEmail = executeAndReturnStdOutput("git log -1 --pretty=format:'%ae'")
-        gitProperties.commitDate = executeAndReturnStdOutput("git log -1 --pretty=format:'%ad'")
-        gitProperties.commitMessage = executeAndReturnStdOutput("git log -1 --format='%B'")
+        gitProperties.committerName = script.sh(returnStdout: true, script: "git log -1 --pretty=format:'%an'")
+        gitProperties.committerEmail = script.sh(returnStdout: true, script: "git log -1 --pretty=format:'%ae'")
+        gitProperties.commitDate = script.sh(returnStdout: true, script: "git log -1 --pretty=format:'%ad'")
+        gitProperties.commitMessage = script.sh(returnStdout: true, script: "git log -1 --format='%B'")
 
 
     }
 
     private void collectGradleProperties() {
-        String applicationName = (executeAndReturnStdOutput("./gradlew -q properties | grep name") as String).split(' ')[1]
+        String applicationName = (script.sh(returnStdout: true, script: "./gradlew -q properties | grep name") as String).split(' ')[1]
         gradleProperties.applicationName = applicationName
 
-        String version = (executeAndReturnStdOutput("./gradlew -q properties | grep version") as String).split(' ')[1]
+        String version = (script.sh(returnStdout: true, script: "./gradlew -q properties | grep version") as String).split(' ')[1]
         if (version && version.toUpperCase() != 'SPECIFIED') {
             gradleProperties.version = applicationName
         } else {
