@@ -4,13 +4,15 @@ import com.example.pipeline.dto.ResponseDTO
 import com.example.pipeline.dto.SharedProperties
 import com.example.pipeline.enums.BuildStatus
 
-class Prepare extends PipeLineStep {
+class Prepare extends PipeLineStepImpl {
     Prepare(SharedProperties sharedProperties) {
         super(sharedProperties, 'any', 'docker', 'Prepare')
     }
 
     @Override
     ResponseDTO run() {
+        echo "Inside Run method of Prepare stage:- com.example.pipeline.step.Prepare.run"
+
         node(nodeName) {
             stage(stageName) {
                 echo "Inside Prepare stage"

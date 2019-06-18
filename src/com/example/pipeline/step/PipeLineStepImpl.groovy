@@ -5,7 +5,7 @@ import com.example.pipeline.dto.ResponseDTO
 import com.example.pipeline.dto.SharedProperties
 import com.example.pipeline.enums.BuildStatus
 
-abstract class PipeLineStep {
+abstract class PipeLineStepImpl {
 
 //    @Delegate
     CommonCommands commonCommands
@@ -17,7 +17,7 @@ abstract class PipeLineStep {
     String nodeName
     String stageName
 
-    PipeLineStep(SharedProperties sharedProperties, String agentName, String nodeName, String stageName) {
+    PipeLineStepImpl(SharedProperties sharedProperties, String agentName, String nodeName, String stageName) {
         this.sharedProperties = sharedProperties
         this.commonCommands = new CommonCommands(jenkinsScript: sharedProperties.jenkinsScript)
         this.agentName = agentName

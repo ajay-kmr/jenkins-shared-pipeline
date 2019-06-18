@@ -1,13 +1,13 @@
 package com.example.pipeline.dto
 
-import com.example.pipeline.step.PipeLineStep
+import com.example.pipeline.step.PipeLineStepImpl
 
 class BuildRequestDTO {
 
     String applicationName
     String serviceType
     String deploymentRegion
-    List<PipeLineStep> pipeLineSteps
+    List<PipeLineStepImpl> pipeLineSteps
 
 
     @Override
