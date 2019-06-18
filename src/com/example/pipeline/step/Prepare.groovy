@@ -17,7 +17,7 @@ class Prepare extends PipeLineStepImpl {
 //        commonCommands.jenkinsScript.echo " commonCommands.jenkinsScript.echo:- Inside Run method of Prepare stage:- com.example.pipeline.step.Prepare.run"
 
         ResponseDTO<String> responseDTO = new ResponseDTO<>(status: true, message: "Dummy Message")
-        script.node(nodeName) {
+//        script.node(nodeName) {
             script.stage(stageName) {
                 script.echo "Inside Prepare stage"
 //                checkout scm
@@ -30,7 +30,7 @@ class Prepare extends PipeLineStepImpl {
                     script.error("Aborting")
                 }
             }
-        }
+//        }
         return responseDTO
     }
 
