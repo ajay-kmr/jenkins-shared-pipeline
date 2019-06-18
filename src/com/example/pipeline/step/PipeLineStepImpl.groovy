@@ -37,7 +37,9 @@ abstract class PipeLineStepImpl implements IPipeLineStep {
         script.echo returnStdOut.toString()
 //        script.sh(script: command, returnStdout: returnStdOut)
 //        script.sh label: '', returnStdout: returnStdOut, script: command
-        script.sh encoding: 'UTF-8', label: 'Executing-Shell-Script', returnStdout: returnStdOut, script: command
+        String commandOutPut = script.sh encoding: 'UTF-8', label: 'Executing-Shell-Script', returnStatus: true, returnStdout: returnStdOut, script: command
+        script.echo commandOutPut
+        return commandOutPut
     }
 
 /** Common Properties --STARTS-- **/
