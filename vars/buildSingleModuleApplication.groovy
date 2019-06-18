@@ -18,14 +18,14 @@ def call(Closure buildConfig) {
     stepRunner.run()
 }
 
-private static BuildRequestDTO createBuildRequest(Closure buildConfig) {
+private BuildRequestDTO createBuildRequest(Closure buildConfig) {
     def buildRequestDTO = new BuildRequestDTO()
     buildConfig.resolveStrategy = Closure.DELEGATE_FIRST
     buildConfig.delegate = buildRequestDTO
     buildConfig()
 
-    echo "The config Detail populated"
-    echo buildRequestDTO.toString()
+    this.echo "The config Detail populated"
+    this.echo buildRequestDTO.toString()
 
     return buildRequestDTO
 }
