@@ -16,6 +16,8 @@ class Prepare extends PipeLineStepImpl {
     ResponseDTO run() {
         script.echo "script.echo:- Inside Run method of Prepare stage:- com.example.pipeline.step.Prepare.run"
         sharedProperties.jenkinsScript.echo " sharedProperties.jenkinsScript.echo:- Inside Run method of Prepare stage:- com.example.pipeline.step.Prepare.run"
+        commonCommands.jenkinsScript.echo " commonCommands.jenkinsScript.echo:- Inside Run method of Prepare stage:- com.example.pipeline.step.Prepare.run"
+        echo " echo:- Inside Run method of Prepare stage:- com.example.pipeline.step.Prepare.run"
 
         ResponseDTO<String> responseDTO = new ResponseDTO<>(status: true, message: "Dummy Message")
         node(nodeName) {
