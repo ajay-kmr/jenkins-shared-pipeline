@@ -5,6 +5,7 @@ import com.example.pipeline.step.PipeLineStepRunner
 import com.example.pipeline.step.Prepare
 
 def call(Closure buildConfig) {
+    echo "******************** Building project using script:- buildSingleModuleApplication ********************"
     BuildRequestDTO buildRequestDTO = createBuildRequest(buildConfig)
     echo("Building project with request:- ${buildRequestDTO}")
     SharedProperties sharedProperties = new SharedProperties(this, buildRequestDTO)
@@ -35,9 +36,13 @@ def call(Closure buildConfig) {
 }
 
 private static BuildRequestDTO createBuildRequest(Closure buildConfig) {
-    BuildRequestDTO buildRequestDTO = new BuildRequestDTO()
+    Map configDelegate = [:]
     buildConfig.resolveStrategy = Closure.DELEGATE_FIRST
-    buildConfig.delegate = buildRequestDTO
+    buildConfig.delegate = configDelegate
     buildConfig()
+
+    echo "The config Detail populated on Closure Delegate is ${configDelegate}"
+
+    BuildRequestDTO buildRequestDTO = new BuildRequestDTO(configDelegate)
     buildRequestDTO
 }
