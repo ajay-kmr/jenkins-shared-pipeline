@@ -28,7 +28,7 @@ abstract class PipeLineStepImpl implements IPipeLineStep {
 
     def executeAndReturnStdOutput(String command) {
         script.echo "At com.example.pipeline.step.PipeLineStepImpl.executeAndReturnStdOutput"
-        execute(command, true)
+        return execute(command, true)
     }
 
     def execute(String command, boolean returnStdOut = false) {
@@ -37,7 +37,12 @@ abstract class PipeLineStepImpl implements IPipeLineStep {
         script.echo returnStdOut.toString()
 //        script.sh(script: command, returnStdout: returnStdOut)
 //        script.sh label: '', returnStdout: returnStdOut, script: command
-        String commandOutPut = script.sh encoding: 'UTF-8', label: 'Executing-Shell-Script', returnStatus: true, returnStdout: returnStdOut, script: command
+        def commandOutPut = script.sh(encoding: 'UTF-8',
+                label: 'Executing-Shell-Script',
+                returnStatus: true,
+                returnStdout: returnStdOut,
+                script: command)
+
         script.echo commandOutPut
         return commandOutPut
     }
