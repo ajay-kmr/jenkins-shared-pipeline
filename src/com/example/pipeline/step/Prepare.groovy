@@ -70,7 +70,7 @@ class Prepare extends PipeLineStepImpl {
 
         String version = (script.sh(returnStdout: true, script: "./gradlew -q properties | grep version") as String).split(' ')[1]
         if (version && version.toUpperCase() != 'SPECIFIED') {
-            gradleProperties.version = applicationName
+            gradleProperties.version = version
         } else {
             Map gradlePropertiesAsMap = script.readProperties file: "gradle.properties"
             gradleProperties.version = gradlePropertiesAsMap['version']
