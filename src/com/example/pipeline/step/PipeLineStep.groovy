@@ -33,6 +33,4 @@ abstract class PipeLineStep {
     def execute(String command, boolean returnStdOut = false) {
         sh(script: command, returnStdout: returnStdOut)
     }
-
-
 }
