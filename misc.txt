@@ -32,4 +32,4 @@ Known error/exception handling:-
     -1: Unsupported expression for CPS transformation @ line -1, column -1.
 
     We get this issue when the class i.e PipeLineStep.groovy has groovy's annotation which is not supported
-     by Jenkins eg @Tostring, @groovy.lang.Delegate etc
+     by Jenkins eg @groovy.transform.ToString, @groovy.lang.Delegate etc
