@@ -35,6 +35,7 @@ class Prepare extends PipeLineStepImpl {
     }
 
     private void gitCheckout() {
+        script.echo "Inside gitCheckout method:- com.example.pipeline.step.Prepare.gitCheckout"
         execute("git checkout ${script.BRANCH_NAME}")
     }
 

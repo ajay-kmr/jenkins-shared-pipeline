@@ -27,10 +27,12 @@ abstract class PipeLineStepImpl implements IPipeLineStep {
     }
 
     def executeAndReturnStdOutput(String command) {
+        script.echo "At com.example.pipeline.step.PipeLineStepImpl.executeAndReturnStdOutput"
         execute(command, true)
     }
 
     def execute(String command, boolean returnStdOut = false) {
+        script.echo "Executing shell script command at com/example/pipeline/step/PipeLineStepImpl.groovy:33"
         script.sh(script: command, returnStdout: returnStdOut)
     }
 
