@@ -18,19 +18,20 @@ class Prepare extends PipeLineStepImpl {
 
         ResponseDTO<String> responseDTO = new ResponseDTO<>(status: true, message: "Dummy Message")
 //        script.node(nodeName) {
-        script.stage(stageName) {
-            script.echo "Inside Prepare stage"
+        script.node {
+            script.stage(stageName) {
+                script.echo "Inside Prepare stage"
 //                checkout scm
-            gitCheckout()
-            collectGitProperties()
-            collectGradleProperties()
-            if (!isEligibleForBuild()) {
-                script.echo("This build is not eligible for deployment.. Aborting....")
-                buildStatus = BuildStatus.ABORTED
-                script.error("Aborting")
+                gitCheckout()
+                collectGitProperties()
+                collectGradleProperties()
+                if (!isEligibleForBuild()) {
+                    script.echo("This build is not eligible for deployment.. Aborting....")
+                    buildStatus = BuildStatus.ABORTED
+                    script.error("Aborting")
+                }
             }
         }
-//        }
         return responseDTO
     }
 
