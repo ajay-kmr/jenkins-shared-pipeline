@@ -34,7 +34,7 @@ abstract class PipeLineStepImpl implements IPipeLineStep {
     def execute(String command, boolean returnStdOut = false) {
         script.echo "Executing shell script command at com/example/pipeline/step/PipeLineStepImpl.groovy:33"
         script.echo command
-        script.echo returnStdOut
+        script.echo returnStdOut.toString()
         script.sh(script: command, returnStdout: returnStdOut)
     }
 
