@@ -21,3 +21,15 @@ If you see any issue related to git checkout during pipeline creation or shared 
         f) Provide "Owner" as the GitHub user name eg- ajay-kmr
         g) Select the correct Repository from dropdown where this library exist
         h) Click on apply and
+
+
+
+****************
+Known error/exception handling:-
+
+1)file:/var/jenkins_home/jobs/abc/branches/shared-pipeline-v1/builds/10/libs/
+    buildSingleModuleApplication/src/com/example/pipeline/step/PipeLineStep.groovy:
+    -1: Unsupported expression for CPS transformation @ line -1, column -1.
+
+    We get this issue when the class i.e PipeLineStep.groovy has groovy's annotation which is not supported
+     by Jenkins eg @Tostring, @groovy.lang.Delegate etc
