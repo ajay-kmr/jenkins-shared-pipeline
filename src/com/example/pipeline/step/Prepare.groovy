@@ -14,21 +14,20 @@ class Prepare extends PipeLineStepImpl {
     ResponseDTO run() {
         sharedProperties.jenkinsScript.echo " sharedProperties.jenkinsScript.echo:- Inside Run method of Prepare stage:- com.example.pipeline.step.Prepare.run"
         script.echo "script.echo:- Inside Run method of Prepare stage:- com.example.pipeline.step.Prepare.run"
-        echo " echo:- Inside Run method of Prepare stage:- com.example.pipeline.step.Prepare.run"
-        commonCommands.jenkinsScript.echo " commonCommands.jenkinsScript.echo:- Inside Run method of Prepare stage:- com.example.pipeline.step.Prepare.run"
+//        commonCommands.jenkinsScript.echo " commonCommands.jenkinsScript.echo:- Inside Run method of Prepare stage:- com.example.pipeline.step.Prepare.run"
 
         ResponseDTO<String> responseDTO = new ResponseDTO<>(status: true, message: "Dummy Message")
-        node(nodeName) {
-            stage(stageName) {
-                echo "Inside Prepare stage"
+        script.node(nodeName) {
+            script.stage(stageName) {
+                script.echo "Inside Prepare stage"
 //                checkout scm
                 gitCheckout()
                 collectGitProperties()
                 collectGradleProperties()
                 if (!isEligibleForBuild()) {
-                    echo("This build is not eligible for deployment.. Aborting....")
+                    script.echo("This build is not eligible for deployment.. Aborting....")
                     buildStatus = BuildStatus.ABORTED
-                    error("Aborting")
+                    script.error("Aborting")
                 }
             }
         }
@@ -36,7 +35,7 @@ class Prepare extends PipeLineStepImpl {
     }
 
     private void gitCheckout() {
-        execute("git checkout ${branchName}")
+        execute("git checkout ${script.BRANCH_NAME}")
     }
 
     private void collectGitProperties() {
@@ -58,7 +57,7 @@ class Prepare extends PipeLineStepImpl {
         if (version && version.toUpperCase() != 'SPECIFIED') {
             gradleProperties.version = applicationName
         } else {
-            Map gradlePropertiesAsMap = readProperties file: "gradle.properties"
+            Map gradlePropertiesAsMap = script.readProperties file: "gradle.properties"
             gradleProperties.version = gradlePropertiesAsMap['version']
         }
     }
