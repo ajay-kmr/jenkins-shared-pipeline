@@ -14,11 +14,11 @@ class PipeLineStepRunner {
     void run() {
         script.echo "Inside PipeLineStepRunner"
         try {
-            pipeLineSteps.each {
+            pipeLineSteps.each { step ->
                 //TODO:- Add pre run activities after each run
-                script.echo "Before running ${it.stageName}"
-                it.run()
-                script.echo "After running ${it.stageName}"
+                script.echo "Before running ${step.stageName}"
+                step.run()
+                script.echo "After running ${step.stageName}"
                 //TODO:- Add post run activities after each step
             }
         } catch (InterruptedException ignored) {
