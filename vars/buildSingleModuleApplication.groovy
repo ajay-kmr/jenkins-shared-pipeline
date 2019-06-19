@@ -10,8 +10,8 @@ def call(Closure buildConfig) {
     BuildRequestDetails buildRequest = BuildRequestDetails.getInstance(buildConfig)
     SharedProperties sharedProperties = new SharedProperties(this, buildRequest)
 
-    String str = "Starting the pipeline. The various properties configured are:- ${sharedProperties}".toString()
-    echo str
+    echo "Starting the pipeline. The various properties configured are:- "
+    echo sharedProperties.buildRequestDetails.toString()
 
     List<IPipeLineStep> pipeLineSteps = [
             new Prepare(sharedProperties),
