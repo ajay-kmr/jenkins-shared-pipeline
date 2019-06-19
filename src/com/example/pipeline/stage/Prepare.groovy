@@ -1,7 +1,7 @@
 package com.example.pipeline.stage
 
-import com.example.pipeline.enums.StageStatus
 import com.example.pipeline.enums.Stage
+import com.example.pipeline.enums.StageStatus
 import com.example.pipeline.model.ResponseDetails
 import com.example.pipeline.model.SharedProperties
 
