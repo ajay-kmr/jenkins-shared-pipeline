@@ -1,22 +1,23 @@
-package com.example.pipeline.step
+package com.example.pipeline.stage
 
 import com.example.pipeline.enums.BuildStatus
+import com.example.pipeline.enums.Stage
 import com.example.pipeline.model.ResponseDetails
 import com.example.pipeline.model.SharedProperties
 
-class Prepare extends PipeLineStepImpl {
+class Prepare extends PipeLineStageImpl<String> {
 
     Prepare(SharedProperties sharedProperties) {
-        super(sharedProperties, 'any', 'master', 'Prepare')
+        super(sharedProperties, 'any', 'master', Stage.PREPARE)
     }
 
     @Override
-    ResponseDetails run() {
+    ResponseDetails<String> run() {
         ResponseDetails<String> responseDTO = new ResponseDetails<>(status: true, message: "Dummy Message")
 //        script.node(nodeName) {
         script.node {
-            script.stage(stageName) {
-                script.echo "Running stage ${stageName}..".toString()
+            script.stage(stage) {
+                script.echo "Running stage ${stage}..".toString()
                 gitCheckout()
                 collectGitProperties()
                 collectGradleProperties()
@@ -31,7 +32,7 @@ class Prepare extends PipeLineStepImpl {
     }
 
     private void gitCheckout() {
-        script.echo "Inside gitCheckout method:- com.example.pipeline.step.Prepare.gitCheckout"
+        script.echo "Inside gitCheckout method:- com.example.pipeline.stage.Prepare.gitCheckout"
 
         script.checkout script.scm
 

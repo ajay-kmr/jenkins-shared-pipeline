@@ -1,5 +1,11 @@
 package com.example.pipeline.model
 
+
+/**
+ * This class is used to collect the Gradle related
+ * properties required during the pipeline execution.
+ * This information is generally collected during the Prepare Stage of PipeLine execution.
+ */
 class GradleProperties {
     String applicationName
     String version

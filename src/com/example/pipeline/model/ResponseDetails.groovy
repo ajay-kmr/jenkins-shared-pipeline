@@ -3,6 +3,7 @@ package com.example.pipeline.model
 class ResponseDetails<T> {
     boolean status
     String message
+    String stashName
     T data
 
 
@@ -11,6 +12,7 @@ class ResponseDetails<T> {
         return "ResponseDetails{" +
                 "status=" + status +
                 ", message='" + message + '\'' +
+                ", stashName=" + stashName +
                 ", data=" + data +
                 '}'
     }

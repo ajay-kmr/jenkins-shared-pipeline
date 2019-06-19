@@ -1,33 +1,34 @@
-package com.example.pipeline.step
+package com.example.pipeline.stage
 
 import com.example.pipeline.enums.BuildStatus
+import com.example.pipeline.enums.Stage
 import com.example.pipeline.model.GitProperties
 import com.example.pipeline.model.GradleProperties
 import com.example.pipeline.model.SharedProperties
 
-abstract class PipeLineStepImpl implements IPipeLineStep {
+abstract class PipeLineStageImpl<T> implements IPipeLineStage<T> {
     SharedProperties sharedProperties
     def script
 
     String agentName
     String nodeName
-    String stageName
+    Stage stage
 
-    PipeLineStepImpl(SharedProperties sharedProperties, String agentName, String nodeName, String stageName) {
+    PipeLineStageImpl(SharedProperties sharedProperties, String agentName, String nodeName, Stage stage) {
         this.sharedProperties = sharedProperties
         this.script = sharedProperties.jenkinsScript
         this.agentName = agentName
         this.nodeName = nodeName
-        this.stageName = stageName
+        this.stage = stage
     }
 
     def executeAndReturnStdOutput(String command) {
-        script.echo "At com.example.pipeline.step.PipeLineStepImpl.executeAndReturnStdOutput"
+        script.echo "At com.example.pipeline.stage.PipeLineStepImpl.executeAndReturnStdOutput"
         return execute(command, true)
     }
 
     def execute(String command, boolean returnStdOut = false) {
-        script.echo "Executing shell script command at com/example/pipeline/step/PipeLineStepImpl.groovy:33"
+        script.echo "Executing shell script command at com/example/pipeline/stage/PipeLineStepImpl.groovy:33"
         script.echo command
         script.echo returnStdOut.toString()
 //        script.sh(script: command, returnStdout: returnStdOut)
