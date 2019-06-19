@@ -1,6 +1,6 @@
 package com.example.pipeline.stage
 
-import com.example.pipeline.enums.BuildStatus
+import com.example.pipeline.enums.StageStatus
 import com.example.pipeline.model.ResponseDetails
 import com.example.pipeline.model.SharedProperties
 
@@ -28,13 +28,13 @@ class PipeLineStageRunner {
             }
         } catch (InterruptedException ignored) {
             ignored.printStackTrace()
-            script.currentBuild.result = BuildStatus.SUCCESS
+            script.currentBuild.result = StageStatus.SUCCESS
         } catch (Exception ignored) {
             ignored.printStackTrace()
             if (script.env.ABORT) {
-                script.currentBuild.result = BuildStatus.ABORTED
+                script.currentBuild.result = StageStatus.ABORTED
             } else {
-                script.currentBuild.result = BuildStatus.FAILURE
+                script.currentBuild.result = StageStatus.FAILURE
             }
         }
     }

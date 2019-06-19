@@ -1,7 +1,7 @@
 package com.example.pipeline.stage
 
-import com.example.pipeline.enums.BuildStatus
 import com.example.pipeline.enums.Stage
+import com.example.pipeline.enums.StageStatus
 import com.example.pipeline.model.GitProperties
 import com.example.pipeline.model.GradleProperties
 import com.example.pipeline.model.SharedProperties
@@ -45,8 +45,8 @@ abstract class PipeLineStageImpl<T> implements IPipeLineStage<T> {
 
 /** Common Properties --STARTS-- **/
 
-    void setBuildStatus(BuildStatus buildStatus) {
-        sharedProperties.buildStatus = buildStatus
+    void setStageStatus(StageStatus status) {
+        sharedProperties.stageStatus = status
     }
 
     GitProperties getGitProperties() {

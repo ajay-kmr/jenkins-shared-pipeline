@@ -1,6 +1,6 @@
 package com.example.pipeline.stage
 
-import com.example.pipeline.enums.BuildStatus
+import com.example.pipeline.enums.StageStatus
 import com.example.pipeline.enums.Stage
 import com.example.pipeline.model.ResponseDetails
 import com.example.pipeline.model.SharedProperties
@@ -23,7 +23,7 @@ class Prepare extends PipeLineStageImpl<String> {
                 collectGradleProperties()
                 if (!isEligibleForBuild()) {
                     script.echo("This build is not eligible for deployment.. Aborting....")
-                    buildStatus = BuildStatus.ABORTED
+                    stageStatus = StageStatus.ABORTED
                     script.error("Aborting")
                 }
             }

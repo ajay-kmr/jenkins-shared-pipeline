@@ -1,7 +1,7 @@
 package com.example.pipeline.model
 
-import com.example.pipeline.enums.BuildStatus
 import com.example.pipeline.enums.Stage
+import com.example.pipeline.enums.StageStatus
 
 /**
  * This is the properties shared across the pipeline in each stages.
@@ -11,7 +11,7 @@ class SharedProperties {
     final def jenkinsScript
     final BuildRequestDetails buildRequestDetails
 
-    BuildStatus buildStatus = BuildStatus.STARTED
+    StageStatus stageStatus = StageStatus.STARTED
 
     final GitProperties gitProperties = new GitProperties()
 
@@ -29,7 +29,7 @@ class SharedProperties {
     String toString() {
         return "SharedProperties{" +
                 "buildRequestDetails=" + buildRequestDetails +
-                ", buildStatus=" + buildStatus +
+                ", stageStatus=" + stageStatus +
                 ", gitProperties=" + gitProperties +
                 ", gradleProperties=" + gradleProperties +
                 '}'

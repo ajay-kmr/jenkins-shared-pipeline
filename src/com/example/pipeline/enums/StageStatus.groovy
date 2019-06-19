@@ -1,6 +1,6 @@
 package com.example.pipeline.enums
 
-enum BuildStatus {
+enum StageStatus {
     STARTED,
     INTERRUPTED,
     SUCCESS,

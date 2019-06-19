@@ -1,6 +1,6 @@
 package com.example.pipeline.stage.java.gradle
 
-import com.example.pipeline.enums.BuildStatus
+import com.example.pipeline.enums.StageStatus
 import com.example.pipeline.enums.Stage
 import com.example.pipeline.model.ResponseDetails
 import com.example.pipeline.model.SharedProperties
@@ -18,7 +18,7 @@ class Build extends PipeLineStageImpl<String> {
         script.node {
             script.stage(stage) {
                 script.echo "Running stage ${stage}.."
-                buildStatus = BuildStatus.SUCCESS
+                stageStatus = StageStatus.SUCCESS
             }
         }
         responseDTO.status = true
