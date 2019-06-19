@@ -26,6 +26,10 @@ class PipeLineStageRunner {
                 script.echo "After running stage:- ${step.stage.displayName}"
                 //TODO:- Add post run activities after each stage
             }
+            script.echo "The overall status of pipeline execution"
+            sharedProperties.stageOutput?.each { stageResult ->
+                script.echo "${stageResult.key} ::: ${stageResult.value.status}"
+            }
         } catch (InterruptedException ignored) {
             ignored.printStackTrace()
             script.currentBuild.result = StageStatus.SUCCESS
