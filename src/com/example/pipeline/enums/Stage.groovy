@@ -15,6 +15,7 @@ enum Stage {
     String description
 
     Stage(String description) {
+        this.displayName = name()
         this.description = description
     }
 
