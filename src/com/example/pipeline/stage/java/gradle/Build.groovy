@@ -18,6 +18,9 @@ class Build extends PipeLineStageImpl<String> {
         script.node {
             script.stage(stageName) {
                 script.echo "Running stage ${stageName}.."
+
+                script.stash stageName
+                responseDTO.stashName = stageName
                 stageStatus = StageStatus.SUCCESS
             }
         }

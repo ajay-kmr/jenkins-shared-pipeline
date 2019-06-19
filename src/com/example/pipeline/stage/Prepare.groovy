@@ -25,6 +25,9 @@ class Prepare extends PipeLineStageImpl<String> {
                     script.echo("This build is not eligible for deployment.. Aborting....")
                     stageStatus = StageStatus.ABORTED
                     script.error("Aborting")
+                } else {
+                    script.stash stageName
+                    responseDTO.stashName = stageName
                 }
             }
         }
