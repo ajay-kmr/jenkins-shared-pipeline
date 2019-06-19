@@ -1,9 +1,9 @@
 package com.example.pipeline.step
 
-import com.example.pipeline.dto.ResponseDTO
+import com.example.pipeline.model.ResponseDetails
 
 interface IPipeLineStep {
-    ResponseDTO run()
+    ResponseDetails run()
 
     String getStageName()
 }

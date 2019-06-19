@@ -1,22 +1,21 @@
 package com.example.pipeline.step
 
-import com.example.pipeline.dto.ResponseDTO
-import com.example.pipeline.dto.SharedProperties
+import com.example.pipeline.model.ResponseDetails
+import com.example.pipeline.model.SharedProperties
 import com.example.pipeline.enums.BuildStatus
 
 class Prepare extends PipeLineStepImpl {
 
     Prepare(SharedProperties sharedProperties) {
-        super(sharedProperties, 'any', 'docker', 'Prepare')
+        super(sharedProperties, 'any', 'master', 'Prepare')
     }
 
     @Override
-    ResponseDTO run() {
+    ResponseDetails run() {
         sharedProperties.jenkinsScript.echo " sharedProperties.jenkinsScript.echo:- Inside Run method of Prepare stage:- com.example.pipeline.step.Prepare.run"
         script.echo "script.echo:- Inside Run method of Prepare stage:- com.example.pipeline.step.Prepare.run"
-//        commonCommands.jenkinsScript.echo " commonCommands.jenkinsScript.echo:- Inside Run method of Prepare stage:- com.example.pipeline.step.Prepare.run"
 
-        ResponseDTO<String> responseDTO = new ResponseDTO<>(status: true, message: "Dummy Message")
+        ResponseDetails<String> responseDTO = new ResponseDetails<>(status: true, message: "Dummy Message")
 //        script.node(nodeName) {
         script.node {
             script.stage(stageName) {

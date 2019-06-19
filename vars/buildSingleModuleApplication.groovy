@@ -1,31 +1,21 @@
-import com.example.pipeline.dto.BuildRequestDTO
-import com.example.pipeline.dto.SharedProperties
+import com.example.pipeline.model.BuildRequestDetails
+import com.example.pipeline.model.SharedProperties
 import com.example.pipeline.step.IPipeLineStep
 import com.example.pipeline.step.PipeLineStepRunner
 import com.example.pipeline.step.Prepare
+import com.example.pipeline.step.java.gradle.Build
 
 def call(Closure buildConfig) {
     echo "******************** Building project using script:- buildSingleModuleApplication ********************"
-    BuildRequestDTO buildRequestDTO = createBuildRequest(buildConfig)
-    SharedProperties sharedProperties = new SharedProperties(this, buildRequestDTO)
+    BuildRequestDetails buildRequest = BuildRequestDetails.getInstance(buildConfig)
+    SharedProperties sharedProperties = new SharedProperties(this, buildRequest)
+
+    echo "The various properties configured are:- " + sharedProperties.toString()
 
     List<IPipeLineStep> pipeLineSteps = [
             new Prepare(sharedProperties),
-
+            new Build(sharedProperties),
     ]
     PipeLineStepRunner stepRunner = new PipeLineStepRunner(this, pipeLineSteps)
-
     stepRunner.run()
-}
-
-private BuildRequestDTO createBuildRequest(Closure buildConfig) {
-    def buildRequestDTO = new BuildRequestDTO()
-    buildConfig.resolveStrategy = Closure.DELEGATE_FIRST
-    buildConfig.delegate = buildRequestDTO
-    buildConfig()
-
-    this.echo "The config Detail populated"
-    this.echo buildRequestDTO.toString()
-
-    return buildRequestDTO
 }

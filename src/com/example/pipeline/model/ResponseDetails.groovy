@@ -1,6 +1,6 @@
-package com.example.pipeline.dto
+package com.example.pipeline.model
 
-class ResponseDTO<T> {
+class ResponseDetails<T> {
     boolean status
     String message
     T data
@@ -8,7 +8,7 @@ class ResponseDTO<T> {
 
     @Override
     String toString() {
-        return "ResponseDTO{" +
+        return "ResponseDetails{" +
                 "status=" + status +
                 ", message='" + message + '\'' +
                 ", data=" + data +
