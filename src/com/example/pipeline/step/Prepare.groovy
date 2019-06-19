@@ -1,8 +1,8 @@
 package com.example.pipeline.step
 
+import com.example.pipeline.enums.BuildStatus
 import com.example.pipeline.model.ResponseDetails
 import com.example.pipeline.model.SharedProperties
-import com.example.pipeline.enums.BuildStatus
 
 class Prepare extends PipeLineStepImpl {
 
@@ -12,15 +12,11 @@ class Prepare extends PipeLineStepImpl {
 
     @Override
     ResponseDetails run() {
-        sharedProperties.jenkinsScript.echo " sharedProperties.jenkinsScript.echo:- Inside Run method of Prepare stage:- com.example.pipeline.step.Prepare.run"
-        script.echo "script.echo:- Inside Run method of Prepare stage:- com.example.pipeline.step.Prepare.run"
-
         ResponseDetails<String> responseDTO = new ResponseDetails<>(status: true, message: "Dummy Message")
 //        script.node(nodeName) {
         script.node {
             script.stage(stageName) {
-                script.echo "Inside Prepare stage"
-//                checkout scm
+                script.echo "Running stage ${stageName}..".toString()
                 gitCheckout()
                 collectGitProperties()
                 collectGradleProperties()

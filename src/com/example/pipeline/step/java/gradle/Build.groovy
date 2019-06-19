@@ -13,11 +13,10 @@ class Build extends PipeLineStepImpl {
 
     @Override
     ResponseDetails run() {
-        script.echo "Running stage ${stageName}..".toString()
         ResponseDetails<String> responseDTO = new ResponseDetails<>(status: false, message: "Stage ${stageName} failed")
         script.node {
             script.stage(stageName) {
-                script.echo "Inside script.stage:- Build"
+                script.echo "Running stage ${stageName}..".toString()
                 buildStatus = BuildStatus.SUCCESS
             }
         }

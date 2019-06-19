@@ -16,9 +16,9 @@ class PipeLineStepRunner {
         try {
             pipeLineSteps.each { step ->
                 //TODO:- Add pre run activities after each run
-                script.echo "Before running ${step.stageName}"
+                script.echo "Before running stage:- ${step.stageName}"
                 step.run()
-                script.echo "After running ${step.stageName}"
+                script.echo "After running stage:- ${step.stageName}"
                 //TODO:- Add post run activities after each step
             }
         } catch (InterruptedException ignored) {

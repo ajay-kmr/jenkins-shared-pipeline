@@ -10,7 +10,7 @@ class BuildRequestDetails {
     List<PipeLineStepImpl> pipeLineSteps
 
 
-    static BuildRequestDetails getInstance(Closure buildConfig) {
+    public static BuildRequestDetails getInstance(Closure buildConfig) {
         def buildRequestDTO = new BuildRequestDetails()
         buildConfig.resolveStrategy = Closure.DELEGATE_FIRST
         buildConfig.delegate = buildRequestDTO
