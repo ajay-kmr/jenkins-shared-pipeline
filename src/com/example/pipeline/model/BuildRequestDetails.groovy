@@ -9,8 +9,7 @@ class BuildRequestDetails {
     String deploymentRegion
     List<PipeLineStepImpl> pipeLineSteps
 
-
-    public static BuildRequestDetails getInstance(Closure buildConfig) {
+    static BuildRequestDetails getInstance(Closure buildConfig) {
         def buildRequestDTO = new BuildRequestDetails()
         buildConfig.resolveStrategy = Closure.DELEGATE_FIRST
         buildConfig.delegate = buildRequestDTO
