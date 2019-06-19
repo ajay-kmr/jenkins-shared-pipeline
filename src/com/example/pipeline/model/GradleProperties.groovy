@@ -5,7 +5,7 @@ class GradleProperties {
     String version
 
     String getVersionWithoutSnapShot() {
-        if (version.toUpperCase().contains("-SNAPSHOT")) {
+        if (version?.toUpperCase()?.contains("-SNAPSHOT")) {
             return version.toUpperCase() - '-SNAPSHOT'
         }
         return version
