@@ -17,6 +17,7 @@ class Build extends PipeLineStepImpl {
         script.node {
             script.stage(stageName) {
                 script.echo "Running stage ${stageName}..".toString()
+                script.echo "Echo without ToString call:- ${stageName}.."
                 buildStatus = BuildStatus.SUCCESS
             }
         }
