@@ -16,8 +16,8 @@ class Prepare extends PipeLineStageImpl<String> {
         ResponseDetails<String> responseDTO = new ResponseDetails<>(status: true, message: "Dummy Message")
 //        script.node(nodeName) {
         script.node {
-            script.stage(stage) {
-                script.echo "Running stage ${stage}..".toString()
+            script.stage(stageName) {
+                script.echo "Running stage ${stageName}..".toString()
                 gitCheckout()
                 collectGitProperties()
                 collectGradleProperties()

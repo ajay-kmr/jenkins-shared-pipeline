@@ -20,10 +20,10 @@ class PipeLineStageRunner {
         try {
             pipeLineSteps.each { step ->
                 //TODO:- Add pre run activities after each run
-                script.echo "Before running stage:- ${step.stage}"
+                script.echo "Before running stage:- ${step.stage.displayName}"
                 ResponseDetails responseDetails = step.run()
                 sharedProperties.stageOutput.put(step.stage, responseDetails)
-                script.echo "After running stage:- ${step.stage}"
+                script.echo "After running stage:- ${step.stage.displayName}"
                 //TODO:- Add post run activities after each stage
             }
         } catch (InterruptedException ignored) {

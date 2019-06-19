@@ -45,6 +45,10 @@ abstract class PipeLineStageImpl<T> implements IPipeLineStage<T> {
 
 /** Common Properties --STARTS-- **/
 
+    String getStageName() {
+        this.stage.displayName
+    }
+
     void setStageStatus(StageStatus status) {
         sharedProperties.stageStatus = status
     }

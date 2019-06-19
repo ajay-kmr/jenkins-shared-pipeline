@@ -22,9 +22,4 @@ enum Stage {
         this.displayName = displayName
         this.description = description
     }
-
-    @Override
-    String toString() {
-        return displayName
-    }
 }

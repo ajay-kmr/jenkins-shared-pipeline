@@ -16,8 +16,8 @@ class Build extends PipeLineStageImpl<String> {
     ResponseDetails<String> run() {
         ResponseDetails<String> responseDTO = new ResponseDetails<>(status: false, message: "Stage ${stage} failed")
         script.node {
-            script.stage(stage) {
-                script.echo "Running stage ${stage}.."
+            script.stage(stageName) {
+                script.echo "Running stage ${stageName}.."
                 stageStatus = StageStatus.SUCCESS
             }
         }
