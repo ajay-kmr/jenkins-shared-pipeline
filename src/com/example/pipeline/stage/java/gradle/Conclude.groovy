@@ -9,7 +9,7 @@ import com.example.pipeline.stage.PipeLineStageImpl
 class Conclude extends PipeLineStageImpl<String> {
 
     Conclude(SharedProperties sharedProperties) {
-        super(sharedProperties, 'any', 'master', Stage.BUILD)
+        super(sharedProperties, 'any', 'master', Stage.CONCLUDE)
     }
 
     @Override
@@ -36,7 +36,7 @@ class Conclude extends PipeLineStageImpl<String> {
                  *  Send a mail to stakeholders and other developers about the deployment status
                  */
 
-//                script.stash stageName
+                script.stash name: stageName, useDefaultExcludes: false
                 responseDTO.stashName = stageName
                 stageStatus = StageStatus.SUCCESS
             }

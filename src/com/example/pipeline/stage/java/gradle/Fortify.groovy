@@ -9,7 +9,7 @@ import com.example.pipeline.stage.PipeLineStageImpl
 class Fortify extends PipeLineStageImpl<String> {
 
     Fortify(SharedProperties sharedProperties) {
-        super(sharedProperties, 'any', 'master', Stage.BUILD)
+        super(sharedProperties, 'any', 'master', Stage.FORTIFY)
     }
 
     @Override
@@ -18,18 +18,18 @@ class Fortify extends PipeLineStageImpl<String> {
         script.node {
             script.stage(stageName) {
                 script.echo "Running stage ${stageName}.."
-
                 script.unstash Stage.BUILD.displayName
+                /*
                 script.sh "./gradlew copyDependencies"
 
                 //TODO:-
                 script.fortifyscanjava([
-                        buildVersion:script.env.BUILD_NUMBER,
+                        buildVersion: script.env.BUILD_NUMBER,
 
                 ])
+*/
 
-
-                script.stash stageName
+                script.stash name: stageName, useDefaultExcludes: false
                 responseDTO.stashName = stageName
                 stageStatus = StageStatus.SUCCESS
             }

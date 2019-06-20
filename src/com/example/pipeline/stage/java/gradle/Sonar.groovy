@@ -25,7 +25,7 @@ class Sonar extends PipeLineStageImpl<String> {
                     script.sh './gradlew -Dsonar.host.url=http://sonar.com:9000 -Dsonar.login=${SONAR_TOKEN} sonar'
                 }
 
-                script.stash stageName
+                script.stash name: stageName, useDefaultExcludes: false
                 responseDTO.stashName = stageName
                 stageStatus = StageStatus.SUCCESS
             }

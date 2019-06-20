@@ -9,7 +9,7 @@ import com.example.pipeline.stage.PipeLineStageImpl
 class Deploy extends PipeLineStageImpl<String> {
 
     Deploy(SharedProperties sharedProperties) {
-        super(sharedProperties, 'any', 'master', Stage.BUILD)
+        super(sharedProperties, 'any', 'master', Stage.DEPLOY)
     }
 
     @Override
@@ -24,7 +24,7 @@ class Deploy extends PipeLineStageImpl<String> {
                  Verify the Deployment
                  **/
 
-//                script.stash stageName
+                script.stash name: stageName, useDefaultExcludes: false
                 responseDTO.stashName = stageName
                 stageStatus = StageStatus.SUCCESS
             }

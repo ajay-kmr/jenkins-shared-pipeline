@@ -9,7 +9,7 @@ import com.example.pipeline.stage.PipeLineStageImpl
 class Release extends PipeLineStageImpl<String> {
 
     Release(SharedProperties sharedProperties) {
-        super(sharedProperties, 'any', 'master', Stage.BUILD)
+        super(sharedProperties, 'any', 'master', Stage.RELEASE)
     }
 
     @Override
@@ -30,7 +30,7 @@ class Release extends PipeLineStageImpl<String> {
                  *
                  */
 
-//                script.stash stageName
+                script.stash name: stageName, useDefaultExcludes: false
                 responseDTO.stashName = stageName
                 stageStatus = StageStatus.SUCCESS
             }

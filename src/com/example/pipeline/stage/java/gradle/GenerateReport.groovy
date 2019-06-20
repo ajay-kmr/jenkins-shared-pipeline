@@ -9,7 +9,7 @@ import com.example.pipeline.stage.PipeLineStageImpl
 class GenerateReport extends PipeLineStageImpl<String> {
 
     GenerateReport(SharedProperties sharedProperties) {
-        super(sharedProperties, 'any', 'master', Stage.BUILD)
+        super(sharedProperties, 'any', 'master', Stage.GENERATE_REPORT)
     }
 
     @Override
