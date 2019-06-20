@@ -27,7 +27,7 @@ class BuildRequestDetails {
 
     void setStages(List stages) {
         this.stages = stages?.collect { stage ->
-            (stage instanceof Stage) ?: Stage.getInstance(stage)
+            (stage instanceof Stage) ? stage : Stage.getInstance(stage)
         }
     }
 
