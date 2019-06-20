@@ -6,9 +6,9 @@ import com.example.pipeline.model.ResponseDetails
 import com.example.pipeline.model.SharedProperties
 import com.example.pipeline.stage.PipeLineStageImpl
 
-class Build extends PipeLineStageImpl<String> {
+class Conclude extends PipeLineStageImpl<String> {
 
-    Build(SharedProperties sharedProperties) {
+    Conclude(SharedProperties sharedProperties) {
         super(sharedProperties, 'any', 'master', Stage.BUILD)
     }
 
@@ -18,9 +18,25 @@ class Build extends PipeLineStageImpl<String> {
         script.node {
             script.stage(stageName) {
                 script.echo "Running stage ${stageName}.."
-                script.unstash Stage.PREPARE.displayName
-                script.sh "./gradlew clean build"
-                script.stash name: stageName, useDefaultExcludes: false
+
+                /**
+                 * Create a file called ${environmentName}-approval.txt if not exist
+                 * Update this Approval file with the details eg:-
+                 *      1) The Person who approve the this build
+                 *      2) Build Time
+                 *      3) Branch Name
+                 *      4) Deployment Region etc
+                 *
+                 *  Add this file to git
+                 *  git add ${environmentName}-approval.txt
+                 *
+                 *  Commit this file
+                 *  Push this file
+                 *
+                 *  Send a mail to stakeholders and other developers about the deployment status
+                 */
+
+//                script.stash stageName
                 responseDTO.stashName = stageName
                 stageStatus = StageStatus.SUCCESS
             }

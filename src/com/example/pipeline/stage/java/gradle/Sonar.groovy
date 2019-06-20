@@ -6,10 +6,10 @@ import com.example.pipeline.model.ResponseDetails
 import com.example.pipeline.model.SharedProperties
 import com.example.pipeline.stage.PipeLineStageImpl
 
-class Build extends PipeLineStageImpl<String> {
+class Sonar extends PipeLineStageImpl<String> {
 
-    Build(SharedProperties sharedProperties) {
-        super(sharedProperties, 'any', 'master', Stage.BUILD)
+    Sonar(SharedProperties sharedProperties) {
+        super(sharedProperties, 'any', 'master', Stage.SONAR_CHECK)
     }
 
     @Override
@@ -18,9 +18,14 @@ class Build extends PipeLineStageImpl<String> {
         script.node {
             script.stage(stageName) {
                 script.echo "Running stage ${stageName}.."
-                script.unstash Stage.PREPARE.displayName
-                script.sh "./gradlew clean build"
-                script.stash name: stageName, useDefaultExcludes: false
+
+                script.unstash Stage.BUILD.displayName
+
+                script.withCredentials([script.string(credentialsId: "sonar_token", variable: "SONAR_TOKEN")]) {
+                    script.sh './gradlew -Dsonar.host.url=http://sonar.com:9000 -Dsonar.login=${SONAR_TOKEN} sonar'
+                }
+
+                script.stash stageName
                 responseDTO.stashName = stageName
                 stageStatus = StageStatus.SUCCESS
             }

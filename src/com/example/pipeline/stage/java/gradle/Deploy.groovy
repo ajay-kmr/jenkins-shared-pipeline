@@ -6,9 +6,9 @@ import com.example.pipeline.model.ResponseDetails
 import com.example.pipeline.model.SharedProperties
 import com.example.pipeline.stage.PipeLineStageImpl
 
-class Build extends PipeLineStageImpl<String> {
+class Deploy extends PipeLineStageImpl<String> {
 
-    Build(SharedProperties sharedProperties) {
+    Deploy(SharedProperties sharedProperties) {
         super(sharedProperties, 'any', 'master', Stage.BUILD)
     }
 
@@ -18,9 +18,13 @@ class Build extends PipeLineStageImpl<String> {
         script.node {
             script.stage(stageName) {
                 script.echo "Running stage ${stageName}.."
-                script.unstash Stage.PREPARE.displayName
-                script.sh "./gradlew clean build"
-                script.stash name: stageName, useDefaultExcludes: false
+
+                /** TODO:-
+                 Deploy to AWS or OSO based on requirement
+                 Verify the Deployment
+                 **/
+
+//                script.stash stageName
                 responseDTO.stashName = stageName
                 stageStatus = StageStatus.SUCCESS
             }

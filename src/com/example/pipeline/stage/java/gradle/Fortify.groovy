@@ -6,9 +6,9 @@ import com.example.pipeline.model.ResponseDetails
 import com.example.pipeline.model.SharedProperties
 import com.example.pipeline.stage.PipeLineStageImpl
 
-class Build extends PipeLineStageImpl<String> {
+class Fortify extends PipeLineStageImpl<String> {
 
-    Build(SharedProperties sharedProperties) {
+    Fortify(SharedProperties sharedProperties) {
         super(sharedProperties, 'any', 'master', Stage.BUILD)
     }
 
@@ -18,9 +18,18 @@ class Build extends PipeLineStageImpl<String> {
         script.node {
             script.stage(stageName) {
                 script.echo "Running stage ${stageName}.."
-                script.unstash Stage.PREPARE.displayName
-                script.sh "./gradlew clean build"
-                script.stash name: stageName, useDefaultExcludes: false
+
+                script.unstash Stage.BUILD.displayName
+                script.sh "./gradlew copyDependencies"
+
+                //TODO:-
+                script.fortifyscanjava([
+                        buildVersion:script.env.BUILD_NUMBER,
+
+                ])
+
+
+                script.stash stageName
                 responseDTO.stashName = stageName
                 stageStatus = StageStatus.SUCCESS
             }

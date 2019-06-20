@@ -25,6 +25,12 @@ class BuildRequestDetails {
         return buildRequestDTO
     }
 
+    void setStages(List stages) {
+        this.stages = stages?.collect { stage ->
+            (stage instanceof Stage) ?: Stage.getInstance(stage)
+        }
+    }
+
     @Override
     String toString() {
         return "BuildRequestDTO{" +

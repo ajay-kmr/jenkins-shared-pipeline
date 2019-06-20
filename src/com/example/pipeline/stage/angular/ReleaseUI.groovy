@@ -1,4 +1,4 @@
-package com.example.pipeline.stage.java.gradle
+package com.example.pipeline.stage.angular
 
 import com.example.pipeline.enums.Stage
 import com.example.pipeline.enums.StageStatus
@@ -6,9 +6,9 @@ import com.example.pipeline.model.ResponseDetails
 import com.example.pipeline.model.SharedProperties
 import com.example.pipeline.stage.PipeLineStageImpl
 
-class Build extends PipeLineStageImpl<String> {
+class ReleaseUI extends PipeLineStageImpl<String> {
 
-    Build(SharedProperties sharedProperties) {
+    ReleaseUI(SharedProperties sharedProperties) {
         super(sharedProperties, 'any', 'master', Stage.BUILD)
     }
 
@@ -18,9 +18,8 @@ class Build extends PipeLineStageImpl<String> {
         script.node {
             script.stage(stageName) {
                 script.echo "Running stage ${stageName}.."
-                script.unstash Stage.PREPARE.displayName
-                script.sh "./gradlew clean build"
-                script.stash name: stageName, useDefaultExcludes: false
+
+                script.stash stageName
                 responseDTO.stashName = stageName
                 stageStatus = StageStatus.SUCCESS
             }

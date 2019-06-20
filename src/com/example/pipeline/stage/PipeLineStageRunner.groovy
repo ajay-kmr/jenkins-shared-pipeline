@@ -18,7 +18,7 @@ class PipeLineStageRunner {
     void run() {
         script.echo "Inside PipeLineStepRunner"
         try {
-            pipeLineSteps.each { step ->
+            pipeLineSteps?.grep()?.each { step ->
                 //TODO:- Add pre run activities after each run
                 script.echo "Before running stage:- ${step.stage.displayName}"
                 ResponseDetails responseDetails = step.run()
