@@ -24,7 +24,7 @@ class Deploy extends PipeLineStageImpl<String> {
                  Verify the Deployment
                  **/
 
-                script.stash name: stageName, useDefaultExcludes: false
+//                script.stash name: stageName, useDefaultExcludes: false
                 responseDTO.stashName = stageName
                 stageStatus = StageStatus.SUCCESS
             }

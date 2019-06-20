@@ -18,7 +18,7 @@ class Fortify extends PipeLineStageImpl<String> {
         script.node {
             script.stage(stageName) {
                 script.echo "Running stage ${stageName}.."
-                script.unstash Stage.BUILD.displayName
+//                script.unstash Stage.BUILD.displayName
                 /*
                 script.sh "./gradlew copyDependencies"
 
@@ -29,7 +29,7 @@ class Fortify extends PipeLineStageImpl<String> {
                 ])
 */
 
-                script.stash name: stageName, useDefaultExcludes: false
+//                script.stash name: stageName, useDefaultExcludes: false
                 responseDTO.stashName = stageName
                 stageStatus = StageStatus.SUCCESS
             }

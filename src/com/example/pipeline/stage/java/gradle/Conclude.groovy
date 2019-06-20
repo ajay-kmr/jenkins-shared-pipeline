@@ -36,7 +36,7 @@ class Conclude extends PipeLineStageImpl<String> {
                  *  Send a mail to stakeholders and other developers about the deployment status
                  */
 
-                script.stash name: stageName, useDefaultExcludes: false
+//                script.stash name: stageName, useDefaultExcludes: false
                 responseDTO.stashName = stageName
                 stageStatus = StageStatus.SUCCESS
             }

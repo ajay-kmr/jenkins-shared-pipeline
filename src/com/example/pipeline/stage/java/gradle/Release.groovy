@@ -30,7 +30,7 @@ class Release extends PipeLineStageImpl<String> {
                  *
                  */
 
-                script.stash name: stageName, useDefaultExcludes: false
+//                script.stash name: stageName, useDefaultExcludes: false
                 responseDTO.stashName = stageName
                 stageStatus = StageStatus.SUCCESS
             }

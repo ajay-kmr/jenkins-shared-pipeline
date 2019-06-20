@@ -18,11 +18,11 @@ class GenerateReport extends PipeLineStageImpl<String> {
         script.node {
             script.stage(stageName) {
                 script.echo "Running stage ${stageName}.."
-                script.unstash Stage.PREPARE.displayName
+//                script.unstash Stage.PREPARE.displayName
                 /**
                  * Generate the various report eg Test Report and add to Jenkins dashboard
                  */
-                script.stash name: stageName, useDefaultExcludes: false
+//                script.stash name: stageName, useDefaultExcludes: false
                 responseDTO.stashName = stageName
                 stageStatus = StageStatus.SUCCESS
             }
