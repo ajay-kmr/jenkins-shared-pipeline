@@ -1,8 +1,6 @@
 package com.example.pipeline.stage.runner
 
-import com.example.pipeline.enums.BuildTool
 import com.example.pipeline.enums.StageStatus
-import com.example.pipeline.factory.GradlePipeLineStageFactory
 import com.example.pipeline.factory.PipeLineStageFactory
 import com.example.pipeline.model.BuildRequestDetails
 import com.example.pipeline.model.ResponseDetails
@@ -14,43 +12,6 @@ class PipeLineStageRunner {
     SharedProperties sharedProperties
     List<IPipeLineStage> pipeLineSteps
 
-    PipeLineStageRunner(script, BuildRequestDetails buildRequest) {
-        this.script = script
-        this.sharedProperties = new SharedProperties(script, buildRequest)
-        this.script.echo "Starting the pipeline. The various properties configured are:- "
-    }
-
-    void initialize() {
-        this.script.echo "Inside PostConstruct Method:- com.example.pipeline.stage.runner.PipeLineStageRunner.initialize"
-/*DELETE THIS CODE*/
-        this.sharedProperties.jenkinsScript.echo "Creating pipeline stages"
-        List<IPipeLineStage> pipeLineStageList = []
-
-        this.sharedProperties.jenkinsScript.echo "?? *** Debug point 1 ***"
-
-        BuildTool currentBuildTool = sharedProperties?.buildRequestDetails?.buildTool
-        sharedProperties.jenkinsScript.echo "?? *** Debug point 2 ***"
-        if (!currentBuildTool) {
-            sharedProperties.jenkinsScript.echo "No BuildTool specified. Possible values are ${BuildTool.values()}"
-//            throw new IllegalArgumentException("No BuildTool specified. Possible values are ${BuildTool.values()}")
-        }
-        sharedProperties.jenkinsScript.echo "?? *** Debug point 3 ***"
-        switch (currentBuildTool) {
-            case BuildTool.GRADLE:
-                sharedProperties.jenkinsScript.echo "?? *** Debug point 4 ***"
-                pipeLineStageList = GradlePipeLineStageFactory.getPipeLineStages(sharedProperties)
-                break
-            default:
-                sharedProperties.jenkinsScript.echo "No Build mechanism defined yet for ${currentBuildTool}"
-//                throw new IllegalArgumentException("No Build mechanism defined yet for ${currentBuildTool}")
-        }
-        sharedProperties.jenkinsScript.echo "?? *** Debug point 5 ***"
-        pipeLineStageList
-        sharedProperties.jenkinsScript.echo "PipeLineStageList created:- ${pipeLineStageList}"
-        this.pipeLineSteps = pipeLineStageList
-        /*DELETE THIS CODE*/
-    }
-
     /**
      * Run the various command available in script with the given buildRequest
      * @param script :- The script having the various command which can be used to
@@ -60,8 +21,10 @@ class PipeLineStageRunner {
      * The pipeline stages are defined using the commands defined in stages and the input provided by buildRequest
      */
     static void run(script, BuildRequestDetails buildRequest) {
-        PipeLineStageRunner stageRunner = new PipeLineStageRunner(script, buildRequest)
-        stageRunner.pipeLineSteps = PipeLineStageFactory.createPipeLineStages(stageRunner.sharedProperties)
+        SharedProperties sharedDetails = new SharedProperties(script, buildRequest)
+        List<IPipeLineStage> stages = PipeLineStageFactory.createPipeLineStages(sharedDetails)
+
+        PipeLineStageRunner stageRunner = new PipeLineStageRunner(script: script, sharedProperties: sharedDetails, pipeLineSteps: stages)
         stageRunner.runPipeLineStages()
     }
 
