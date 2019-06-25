@@ -36,13 +36,15 @@ class PipeLineStageRunner {
         }
         sharedProperties.jenkinsScript.echo "?? *** Debug point 3 ***"
         switch (currentBuildTool) {
-            case BuildTool.GRADLE: pipeLineStageList = GradlePipeLineStageFactory.getPipeLineStages(sharedProperties)
+            case BuildTool.GRADLE:
+                sharedProperties.jenkinsScript.echo "?? *** Debug point 4 ***"
+                pipeLineStageList = GradlePipeLineStageFactory.getPipeLineStages(sharedProperties)
                 break
             default:
                 sharedProperties.jenkinsScript.echo "No Build mechanism defined yet for ${currentBuildTool}"
 //                throw new IllegalArgumentException("No Build mechanism defined yet for ${currentBuildTool}")
         }
-        sharedProperties.jenkinsScript.echo "?? *** Debug point 4 ***"
+        sharedProperties.jenkinsScript.echo "?? *** Debug point 5 ***"
         pipeLineStageList
         sharedProperties.jenkinsScript.echo "PipeLineStageList created:- ${pipeLineStageList}"
         this.pipeLineSteps = pipeLineStageList
