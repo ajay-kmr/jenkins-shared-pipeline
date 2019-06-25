@@ -49,8 +49,8 @@ class GradlePipeLineStageFactory {
                     Stage.DEPLOY,
                     Stage.CONCLUDE,
             ]
-            echo "No stages ware defined. So using defaults:-"
-            echo "${sharedProperties.buildRequestDetails.stages}"
+            sharedProperties.jenkinsScript.echo "No stages ware defined. So using defaults:-"
+            sharedProperties.jenkinsScript.echo "${sharedProperties.buildRequestDetails.stages}"
         }
     }
 }
