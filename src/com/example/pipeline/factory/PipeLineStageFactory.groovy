@@ -6,6 +6,7 @@ import com.example.pipeline.stage.IPipeLineStage
 
 class PipeLineStageFactory {
     static List<IPipeLineStage> getPipeLineStages(SharedProperties sharedProperties) {
+        sharedProperties.jenkinsScript.echo "Creating pipeline stages"
         BuildTool currentBuildTool = sharedProperties?.buildRequestDetails?.buildTool
         if (!currentBuildTool) {
             throw new IllegalArgumentException("No BuildTool specified. Possible values are ${BuildTool.values()}")
