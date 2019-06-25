@@ -18,13 +18,8 @@ class PipeLineStageRunner {
         this.sharedProperties = new SharedProperties(script, buildRequest)
 
         this.script.echo "Starting the pipeline. The various properties configured are:- "
-        try {
-//            this.script.echo sharedProperties?.buildRequestDetails?.toString()
-            this.pipeLineSteps = factory.createPipeLineStages(sharedProperties)
-        } catch (Exception e) {
-            e.printStackTrace()
-        }
-
+        this.script.echo this?.sharedProperties?.buildRequestDetails?.toString() ?: "Unable to evaluate:- buildRequestDetails "
+        this.pipeLineSteps = factory.createPipeLineStages(sharedProperties)
     }
 
     /**
