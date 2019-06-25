@@ -23,6 +23,7 @@ dependencies {
 
     // Use the awesome Spock testing and specification framework
     testImplementation 'org.spockframework:spock-core:1.2-groovy-2.5'
+    testCompile group:'com.lesfurets', name:'jenkins-pipeline-unit', version:'1.0'
 }
 sourceSets {
     main {
