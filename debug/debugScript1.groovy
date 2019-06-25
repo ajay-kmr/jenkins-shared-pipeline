@@ -1,11 +1,3 @@
-@Library('buildSingleModuleApplication@code-cleanup') _
-
-import com.example.pipeline.enums.BuildTool
-import com.example.pipeline.enums.Stage
-import com.example.pipeline.factory.PipeLineStageFactory
-import com.example.pipeline.model.BuildRequestDetails
-import com.example.pipeline.model.SharedProperties
-import com.example.pipeline.stage.IPipeLineStage
 
 /**
  * Steps to Debug:-
@@ -19,30 +11,54 @@ import com.example.pipeline.stage.IPipeLineStage
  */
 //******************
 
+@Library('buildSingleModuleApplication@code-cleanup') _
+import com.example.pipeline.model.SharedProperties;
+import com.example.pipeline.factory.PipeLineStageFactory;
+import com.example.pipeline.model.BuildRequestDetails;
+import com.example.pipeline.stage.IPipeLineStage;
+import com.example.pipeline.enums.BuildTool;
+import com.example.pipeline.factory.GradlePipeLineStageFactory;
+import com.example.pipeline.stage.*;
+import com.example.pipeline.stage.java.gradle.*;
+import com.example.pipeline.enums.Stage;
+
+
+//******************
+
 List<IPipeLineStage> getPipeLineStages(SharedProperties sharedProperties) {
     setDefaultPipeLineStagesIfNotDefined(sharedProperties)
     List<IPipeLineStage> pipeLineSteps = sharedProperties.buildRequestDetails.stages.collect { stage ->
         getPipeLineStage(stage, sharedProperties)
     }
 //        Collections.unmodifiableList(pipeLineSteps)
+
+    sharedProperties.jenkinsScript.echo "Pipeline steps created successfully"
+    pipeLineSteps.each{st->
+        sharedProperties.jenkinsScript.echo  "Hello:-  " + st.getStage()
+    }
+
     pipeLineSteps
 }
 
 IPipeLineStage getPipeLineStage(Stage stage, SharedProperties sharedProperties) {
+    IPipeLineStage res = null;
     switch (stage) {
-        case Stage.PREPARE: return new Prepare(sharedProperties)
-        case Stage.BUILD: return new Build(sharedProperties)
-        case Stage.FORTIFY: return new Fortify(sharedProperties)
-        case Stage.ACCEPTANCE_TEST: return new AcceptanceTest(sharedProperties)
-        case Stage.SONAR_CHECK: return new Sonar(sharedProperties)
-        case Stage.GENERATE_REPORT: return new GenerateReport(sharedProperties)
-        case Stage.PUBLISH_ARTIFACT: return new PublishArtifact(sharedProperties)
-        case Stage.RELEASE: return new Release(sharedProperties)
-        case Stage.DEPLOY: return new Deploy(sharedProperties)
-        case Stage.CONCLUDE: return new Conclude(sharedProperties)
+        case Stage.PREPARE: res= new Prepare(sharedProperties); break;
+        case Stage.BUILD: res= new Build(sharedProperties); break;
+        case Stage.FORTIFY: res= new Fortify(sharedProperties); break;
+        case Stage.ACCEPTANCE_TEST: res= new AcceptanceTest(sharedProperties); break;
+        case Stage.SONAR_CHECK: res= new Sonar(sharedProperties); break;
+        case Stage.GENERATE_REPORT: res= new GenerateReport(sharedProperties); break;
+        case Stage.PUBLISH_ARTIFACT: res= new PublishArtifact(sharedProperties); break;
+        case Stage.RELEASE: res= new Release(sharedProperties); break;
+        case Stage.DEPLOY: res= new Deploy(sharedProperties); break;
+        case Stage.CONCLUDE: res= new Conclude(sharedProperties); break;
         default:
             throw new IllegalArgumentException("No action defined for ${stage}");
     }
+    sharedProperties.jenkinsScript.echo "The PipeLineStage is:- "+res;
+    sharedProperties.jenkinsScript.echo "** The PipeLineStage is:- "+res.getStage();
+    res
 }
 
 
@@ -69,14 +85,14 @@ void setDefaultPipeLineStagesIfNotDefined(SharedProperties sharedProperties) {
 //******************
 
 def buildConfig = {
-    applicationName = "Hello applicationName for testing"
-    serviceType = "Hello serviceType for testing"
-    deploymentRegion = "Hello deploymentRegion for testing"
+    applicationName="Hello applicationName for testing"
+    serviceType="Hello serviceType for testing"
+    deploymentRegion="Hello deploymentRegion for testing"
 }
 
 BuildRequestDetails buildRequest = BuildRequestDetails.getInstance(buildConfig)
 
-echo "Hello " + buildRequest.toString()
+echo "Hello "+buildRequest.toString()
 
 def sharedProperties = new SharedProperties(this, buildRequest)
 
@@ -84,16 +100,20 @@ sharedProperties.jenkinsScript.echo "Hello Echo this.sharedProperties.jenkinsScr
 
 BuildTool currentBuildTool = sharedProperties?.buildRequestDetails?.buildTool
 
-echo "Current Build tool is " + currentBuildTool
+echo "Current Build tool is "+currentBuildTool
 
 final PipeLineStageFactory factory = new PipeLineStageFactory()
 
+
+
 //final List<IPipeLineStage> pipeLineSteps = factory.createPipeLineStages(sharedProperties)
+
 
 //GradlePipeLineStageFactory.getPipeLineStages(sharedProperties)
 
 final List<IPipeLineStage> pipeLineSteps = getPipeLineStages(sharedProperties)
-/**
- def stages = pipeLineSteps?.collect{step->
- step.getStage()}**/
-//echo stages
+
+pipeLineSteps?.each{step->
+    sharedProperties.jenkinsScript.echo "Last:- " + step.getStage()
+
+}

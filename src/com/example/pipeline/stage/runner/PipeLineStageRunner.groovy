@@ -8,7 +8,6 @@ import com.example.pipeline.model.SharedProperties
 import com.example.pipeline.stage.IPipeLineStage
 
 class PipeLineStageRunner {
-    final PipeLineStageFactory factory = new PipeLineStageFactory()
     final def script
     final SharedProperties sharedProperties
     final List<IPipeLineStage> pipeLineSteps
@@ -17,8 +16,8 @@ class PipeLineStageRunner {
         this.script = script
         this.sharedProperties = new SharedProperties(script, buildRequest)
         this.script.echo "Starting the pipeline. The various properties configured are:- "
-        this.sharedProperties.jenkinsScript.echo "Echo this.sharedProperties.jenkinsScript"
-
+        PipeLineStageFactory factory = new PipeLineStageFactory()
+        sharedProperties.jenkinsScript.echo "Created instance of PipeLineStageFactory:- ${factory}"
         this.pipeLineSteps = factory.createPipeLineStages(sharedProperties)
         this.script.echo this?.sharedProperties?.buildRequestDetails?.toString() ?: "Unable to evaluate:- buildRequestDetails "
     }
