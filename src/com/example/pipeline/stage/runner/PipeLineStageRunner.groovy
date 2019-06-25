@@ -21,16 +21,8 @@ class PipeLineStageRunner {
         PipeLineStageFactory factory = new PipeLineStageFactory()
         sharedProperties.jenkinsScript.echo "Created instance of PipeLineStageFactory:- ${factory}"
 //        this.pipeLineSteps = factory.createPipeLineStages(sharedProperties)
-        this.pipeLineSteps = createPipeLineStages(sharedProperties)
-        this.script.echo this?.sharedProperties?.buildRequestDetails?.toString() ?: "Unable to evaluate:- buildRequestDetails "
-    }
 
-    /**
-     * TODO:- Need to remove below method
-     *
-     */
-
-    List<IPipeLineStage> createPipeLineStages(SharedProperties sharedProperties) {
+        /*DELETE THIS CODE*/
         sharedProperties.jenkinsScript.echo "Creating pipeline stages"
         List<IPipeLineStage> pipeLineStageList = []
 
@@ -47,8 +39,15 @@ class PipeLineStageRunner {
 //                throw new IllegalArgumentException("No Build mechanism defined yet for ${currentBuildTool}")
         }
         pipeLineStageList
-    }
+        sharedProperties.jenkinsScript.echo "PipeLineStageList created:- ${pipeLineStageList}"
+        this.pipeLineSteps = pipeLineStageList
+        /*DELETE THIS CODE*/
 
+
+
+        this.script.echo this?.sharedProperties?.buildRequestDetails?.toString() ?: "Unable to evaluate:- buildRequestDetails "
+    }
+    
     /**
      * Run the various command available in script with the given buildRequest
      * @param script :- The script having the various command which can be used to
