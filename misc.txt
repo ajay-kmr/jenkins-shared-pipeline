@@ -47,5 +47,13 @@ Known error/exception handling:-
     However if you want groovy's string interpolation to work, explicitly call the ToString() method i.e
             echo "Running stage ${stageName}".toString() will work fine
 
-6)
+6) org.jenkinsci.plugins.scriptsecurity.sandbox.RejectedAccessException: Scripts not permitted to use staticMethod org.codehaus.groovy.transform.ImmutableASTTransformation checkPropNames java.lang.Object java.util.Map
+   	at org.jenkinsci.plugins.scriptsecurity.sandbox.whitelists.StaticWhitelist.rejectStaticMethod(StaticWhitelist.java:276)
+   	at org.jenkinsci.plugins.scriptsecurity.sandbox.groovy.SandboxInterceptor.onStaticCall(SandboxInterceptor.java:188)
+   	at org.kohsuke.groovy.sandbox.impl.Checker$2.call(Checker.java:187)
+
+    Solution:-
+    https://stackoverflow.com/questions/38276341/jenkins-ci-pipeline-scripts-not-permitted-to-use-method-groovy-lang-groovyobject
+    Read:- https://jenkins.io/doc/book/managing/script-approval/
+    
 

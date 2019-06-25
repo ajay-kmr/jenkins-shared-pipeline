@@ -28,7 +28,8 @@ class BuildRequestDetails {
     }
 
     void setStages(List stages) {
-        this.stages = Collections.unmodifiableList(stages?.collect { stage -> Stage.getInstance(stage) })
+//        this.stages = Collections.unmodifiableList(stages?.collect { stage -> Stage.getInstance(stage) })
+        this.stages = stages?.collect { stage -> Stage.getInstance(stage) }
     }
 
 /*

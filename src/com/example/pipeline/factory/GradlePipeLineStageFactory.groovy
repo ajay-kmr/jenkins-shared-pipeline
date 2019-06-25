@@ -13,7 +13,8 @@ class GradlePipeLineStageFactory {
         List<IPipeLineStage> pipeLineSteps = sharedProperties.buildRequestDetails.stages.collect { stage ->
             getPipeLineStage(stage, sharedProperties)
         }
-        Collections.unmodifiableList(pipeLineSteps)
+//        Collections.unmodifiableList(pipeLineSteps)
+        pipeLineSteps
     }
 
     private static IPipeLineStage getPipeLineStage(Stage stage, SharedProperties sharedProperties) {

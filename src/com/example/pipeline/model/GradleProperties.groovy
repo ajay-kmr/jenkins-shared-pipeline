@@ -1,6 +1,5 @@
 package com.example.pipeline.model
 
-
 /**
  * This class is used to collect the Gradle related
  * properties required during the pipeline execution.
