@@ -5,7 +5,7 @@ import com.example.pipeline.model.SharedProperties
 import com.example.pipeline.stage.IPipeLineStage
 
 class PipeLineStageFactory {
-    List<IPipeLineStage> createPipeLineStages(SharedProperties sharedProperties) {
+    static List<IPipeLineStage> createPipeLineStages(SharedProperties sharedProperties) {
         sharedProperties.jenkinsScript.echo "Creating pipeline stages"
         List<IPipeLineStage> pipeLineStageList = []
 

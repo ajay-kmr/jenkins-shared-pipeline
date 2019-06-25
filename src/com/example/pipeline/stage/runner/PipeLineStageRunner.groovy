@@ -14,7 +14,7 @@ class PipeLineStageRunner {
     SharedProperties sharedProperties
     List<IPipeLineStage> pipeLineSteps
 
-    private PipeLineStageRunner(script, BuildRequestDetails buildRequest) {
+    PipeLineStageRunner(script, BuildRequestDetails buildRequest) {
         this.script = script
         this.sharedProperties = new SharedProperties(script, buildRequest)
         this.script.echo "Starting the pipeline. The various properties configured are:- "
