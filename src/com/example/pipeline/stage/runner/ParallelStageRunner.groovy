@@ -1,8 +1,10 @@
-package com.example.pipeline.stage
+package com.example.pipeline.stage.runner
 
 import com.example.pipeline.enums.Stage
 import com.example.pipeline.model.ResponseDetails
 import com.example.pipeline.model.SharedProperties
+import com.example.pipeline.stage.IPipeLineStage
+import com.example.pipeline.stage.PipeLineStageImpl
 
 class ParallelStageRunner extends PipeLineStageImpl<List<ResponseDetails>> {
 

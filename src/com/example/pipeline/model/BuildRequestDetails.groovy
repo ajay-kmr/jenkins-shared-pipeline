@@ -1,5 +1,6 @@
 package com.example.pipeline.model
 
+import com.example.pipeline.enums.BuildTool
 import com.example.pipeline.enums.Stage
 
 /**
@@ -16,6 +17,7 @@ class BuildRequestDetails {
     String serviceType
     String deploymentRegion
     List<Stage> stages
+    BuildTool buildTool = BuildTool.GRADLE
 
     static BuildRequestDetails getInstance(Closure buildConfig) {
         def buildRequestDTO = new BuildRequestDetails()
@@ -26,9 +28,11 @@ class BuildRequestDetails {
     }
 
     void setStages(List stages) {
-        this.stages = stages?.collect { stage ->
-            (stage instanceof Stage) ? stage : Stage.getInstance(stage)
-        }
+        this.stages = Collections.unmodifiableList(stages?.collect { stage -> Stage.getInstance(stage) })
+    }
+
+    void setBuildTool(def buildTool) {
+        this.buildTool = BuildTool.getInstance(buildTool)
     }
 
     @Override

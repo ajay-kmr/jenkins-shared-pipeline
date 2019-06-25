@@ -12,9 +12,10 @@ enum Stage {
 
     SONAR_CHECK("SONAR CHECK", "Run Sonar Check"),
     GENERATE_REPORT("GENERATE REPORT", "Generate Report of Test Result"),
-    RELEASE("Generate Report of Test Result"),
-    DEPLOY("Generate Report of Test Result"),
-    CONCLUDE("Generate Report of Test Result"),
+    PUBLISH_ARTIFACT("the artifact to maven repository"),
+    RELEASE("Create Docker image and release it to docker hub"),
+    DEPLOY("Deploy the application to various environment eg dev, QA, UAT etc"),
+    CONCLUDE("Conclude the over all result of pipeline and send/publish the status to required channel"),
 
     ;
     String displayName
@@ -31,8 +32,15 @@ enum Stage {
     }
 
     static Stage getInstance(def input) {
-        values()?.find { stage ->
+        if (input && (input instanceof Stage)) {
+            return input
+        }
+        Stage result = values()?.find { stage ->
             stage.name().equalsIgnoreCase(input?.toString()) || stage.displayName.equalsIgnoreCase(input?.toString())
         }
+        if ((!result)) {
+            throw new IllegalArgumentException("No stage defined for ${input}. Possible values are:- ${values()}")
+        }
+        return result
     }
 }
