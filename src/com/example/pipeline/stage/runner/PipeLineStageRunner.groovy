@@ -17,7 +17,7 @@ class PipeLineStageRunner {
         this.sharedProperties = new SharedProperties(script, buildRequest)
 
         this.script.echo "Starting the pipeline. The various properties configured are:- "
-        this.script.echo this.sharedProperties.buildRequestDetails.toString()
+//        this.script.echo sharedProperties.buildRequestDetails.toString()
 
         this.pipeLineSteps = PipeLineStageFactory.getPipeLineStages(sharedProperties)
     }
