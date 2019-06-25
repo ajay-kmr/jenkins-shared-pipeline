@@ -9,6 +9,8 @@ import com.example.pipeline.model.ResponseDetails
 import com.example.pipeline.model.SharedProperties
 import com.example.pipeline.stage.IPipeLineStage
 
+import javax.annotation.PostConstruct
+
 class PipeLineStageRunner {
     def script
     SharedProperties sharedProperties
@@ -21,8 +23,12 @@ class PipeLineStageRunner {
         PipeLineStageFactory factory = new PipeLineStageFactory()
         sharedProperties.jenkinsScript.echo "Created instance of PipeLineStageFactory:- ${factory}"
 //        this.pipeLineSteps = factory.createPipeLineStages(sharedProperties)
+        this.script.echo this?.sharedProperties?.buildRequestDetails?.toString() ?: "Unable to evaluate:- buildRequestDetails "
+    }
 
-        /*DELETE THIS CODE*/
+    @PostConstruct
+    void initialize() {
+/*DELETE THIS CODE*/
         sharedProperties.jenkinsScript.echo "Creating pipeline stages"
         List<IPipeLineStage> pipeLineStageList = []
 
@@ -49,10 +55,6 @@ class PipeLineStageRunner {
         sharedProperties.jenkinsScript.echo "PipeLineStageList created:- ${pipeLineStageList}"
         this.pipeLineSteps = pipeLineStageList
         /*DELETE THIS CODE*/
-
-
-
-        this.script.echo this?.sharedProperties?.buildRequestDetails?.toString() ?: "Unable to evaluate:- buildRequestDetails "
     }
 
     /**
