@@ -9,7 +9,7 @@ import com.example.pipeline.stage.PipeLineStageImpl
 class PublishArtifact extends PipeLineStageImpl<String> {
 
     PublishArtifact(SharedProperties sharedProperties) {
-        super(sharedProperties, 'any', 'master', Stage.RELEASE)
+        super(sharedProperties, 'any', 'master', Stage.PUBLISH_ARTIFACT)
     }
 
     @Override
