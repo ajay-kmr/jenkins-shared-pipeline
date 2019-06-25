@@ -7,20 +7,14 @@ import com.example.pipeline.stage.IPipeLineStage
 class PipeLineStageFactory {
     static List<IPipeLineStage> createPipeLineStages(SharedProperties sharedProperties) {
         sharedProperties.jenkinsScript.echo "Creating pipeline stages"
-        List<IPipeLineStage> pipeLineStageList = []
-
         BuildTool currentBuildTool = sharedProperties?.buildRequestDetails?.buildTool
         if (!currentBuildTool) {
-            sharedProperties.jenkinsScript.echo "No BuildTool specified. Possible values are ${BuildTool.values()}"
-//            throw new IllegalArgumentException("No BuildTool specified. Possible values are ${BuildTool.values()}")
+            throw new IllegalArgumentException("No BuildTool specified. Possible values are ${BuildTool.values()}")
         }
         switch (currentBuildTool) {
-            case BuildTool.GRADLE: pipeLineStageList = GradlePipeLineStageFactory.getPipeLineStages(sharedProperties)
-                break
+            case BuildTool.GRADLE: return GradlePipeLineStageFactory.getPipeLineStages(sharedProperties)
             default:
-                sharedProperties.jenkinsScript.echo "No Build mechanism defined yet for ${currentBuildTool}"
-//                throw new IllegalArgumentException("No Build mechanism defined yet for ${currentBuildTool}")
+                throw new IllegalArgumentException("No Build mechanism defined yet for ${currentBuildTool}")
         }
-        pipeLineStageList
     }
 }

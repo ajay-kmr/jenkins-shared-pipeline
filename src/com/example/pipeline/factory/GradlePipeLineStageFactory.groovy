@@ -8,7 +8,7 @@ import com.example.pipeline.stage.java.gradle.*
 
 class GradlePipeLineStageFactory {
 
-    public static List<IPipeLineStage> getPipeLineStages(SharedProperties sharedProperties) {
+    static List<IPipeLineStage> getPipeLineStages(SharedProperties sharedProperties) {
         sharedProperties.jenkinsScript.echo "com.example.pipeline.factory.GradlePipeLineStageFactory.getPipeLineStages"
         setDefaultPipeLineStagesIfNotDefined(sharedProperties)
         List<IPipeLineStage> pipeLineSteps = sharedProperties.buildRequestDetails.stages.collect { stage ->

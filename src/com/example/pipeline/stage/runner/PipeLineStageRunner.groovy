@@ -24,7 +24,8 @@ class PipeLineStageRunner {
         SharedProperties sharedDetails = new SharedProperties(script, buildRequest)
         List<IPipeLineStage> stages = PipeLineStageFactory.createPipeLineStages(sharedDetails)
 
-        PipeLineStageRunner stageRunner = new PipeLineStageRunner(script: script, sharedProperties: sharedDetails, pipeLineSteps: stages)
+        PipeLineStageRunner stageRunner = new PipeLineStageRunner(script: script,
+                sharedProperties: sharedDetails, pipeLineSteps: stages)
         stageRunner.runPipeLineStages()
     }
 
