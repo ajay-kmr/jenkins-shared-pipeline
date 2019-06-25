@@ -25,12 +25,14 @@ class ParallelStageRunner extends PipeLineStageImpl<List<ResponseDetails>> {
     @Override
     ResponseDetails<List<ResponseDetails>> run() {
         List<ResponseDetails> responseDetails = []
+        /*
         script.parallel firstStage.stage.displayName: {
             responseDetails.add(firstStage.run())
         },
                 secondStage.stage.displayName: {
                     responseDetails.add(secondStage.run())
                 }
+        */
         responseDetails
     }
 }
