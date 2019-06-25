@@ -19,8 +19,8 @@ class PipeLineStageRunner {
         this.script = script
         this.sharedProperties = new SharedProperties(script, buildRequest)
         this.script.echo "Starting the pipeline. The various properties configured are:- "
-        String message = this?.sharedProperties?.buildRequestDetails?.toString() ?: "Unable to evaluate:- buildRequestDetails "
-        this.script.echo message
+//        String message = this?.sharedProperties?.buildRequestDetails?.toString() ?: "Unable to evaluate:- buildRequestDetails "
+//        this.script.echo message
     }
 
     @PostConstruct
