@@ -10,9 +10,9 @@ import com.example.pipeline.model.SharedProperties
 import com.example.pipeline.stage.IPipeLineStage
 
 class PipeLineStageRunner {
-    final def script
-    final SharedProperties sharedProperties
-    final List<IPipeLineStage> pipeLineSteps
+    def script
+    SharedProperties sharedProperties
+    List<IPipeLineStage> pipeLineSteps
 
     private PipeLineStageRunner(script, BuildRequestDetails buildRequest) {
         this.script = script
