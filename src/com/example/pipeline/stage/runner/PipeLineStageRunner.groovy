@@ -1,6 +1,8 @@
 package com.example.pipeline.stage.runner
 
+import com.example.pipeline.enums.BuildTool
 import com.example.pipeline.enums.StageStatus
+import com.example.pipeline.factory.GradlePipeLineStageFactory
 import com.example.pipeline.factory.PipeLineStageFactory
 import com.example.pipeline.model.BuildRequestDetails
 import com.example.pipeline.model.ResponseDetails
@@ -18,8 +20,33 @@ class PipeLineStageRunner {
         this.script.echo "Starting the pipeline. The various properties configured are:- "
         PipeLineStageFactory factory = new PipeLineStageFactory()
         sharedProperties.jenkinsScript.echo "Created instance of PipeLineStageFactory:- ${factory}"
-        this.pipeLineSteps = factory.createPipeLineStages(sharedProperties)
+//        this.pipeLineSteps = factory.createPipeLineStages(sharedProperties)
+        this.pipeLineSteps = createPipeLineStages(sharedProperties)
         this.script.echo this?.sharedProperties?.buildRequestDetails?.toString() ?: "Unable to evaluate:- buildRequestDetails "
+    }
+
+    /**
+     * TODO:- Need to remove below method
+     *
+     */
+
+    List<IPipeLineStage> createPipeLineStages(SharedProperties sharedProperties) {
+        sharedProperties.jenkinsScript.echo "Creating pipeline stages"
+        List<IPipeLineStage> pipeLineStageList = []
+
+        BuildTool currentBuildTool = sharedProperties?.buildRequestDetails?.buildTool
+        if (!currentBuildTool) {
+            sharedProperties.jenkinsScript.echo "No BuildTool specified. Possible values are ${BuildTool.values()}"
+//            throw new IllegalArgumentException("No BuildTool specified. Possible values are ${BuildTool.values()}")
+        }
+        switch (currentBuildTool) {
+            case BuildTool.GRADLE: pipeLineStageList = GradlePipeLineStageFactory.getPipeLineStages(sharedProperties)
+                break
+            default:
+                sharedProperties.jenkinsScript.echo "No Build mechanism defined yet for ${currentBuildTool}"
+//                throw new IllegalArgumentException("No Build mechanism defined yet for ${currentBuildTool}")
+        }
+        pipeLineStageList
     }
 
     /**
