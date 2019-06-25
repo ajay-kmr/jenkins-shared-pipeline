@@ -26,11 +26,15 @@ class PipeLineStageRunner {
         sharedProperties.jenkinsScript.echo "Creating pipeline stages"
         List<IPipeLineStage> pipeLineStageList = []
 
+        sharedProperties.jenkinsScript.echo "?? *** Debug point 1 ***"
+
         BuildTool currentBuildTool = sharedProperties?.buildRequestDetails?.buildTool
+        sharedProperties.jenkinsScript.echo "?? *** Debug point 2 ***"
         if (!currentBuildTool) {
             sharedProperties.jenkinsScript.echo "No BuildTool specified. Possible values are ${BuildTool.values()}"
 //            throw new IllegalArgumentException("No BuildTool specified. Possible values are ${BuildTool.values()}")
         }
+        sharedProperties.jenkinsScript.echo "?? *** Debug point 3 ***"
         switch (currentBuildTool) {
             case BuildTool.GRADLE: pipeLineStageList = GradlePipeLineStageFactory.getPipeLineStages(sharedProperties)
                 break
@@ -38,6 +42,7 @@ class PipeLineStageRunner {
                 sharedProperties.jenkinsScript.echo "No Build mechanism defined yet for ${currentBuildTool}"
 //                throw new IllegalArgumentException("No Build mechanism defined yet for ${currentBuildTool}")
         }
+        sharedProperties.jenkinsScript.echo "?? *** Debug point 4 ***"
         pipeLineStageList
         sharedProperties.jenkinsScript.echo "PipeLineStageList created:- ${pipeLineStageList}"
         this.pipeLineSteps = pipeLineStageList
@@ -47,7 +52,7 @@ class PipeLineStageRunner {
 
         this.script.echo this?.sharedProperties?.buildRequestDetails?.toString() ?: "Unable to evaluate:- buildRequestDetails "
     }
-    
+
     /**
      * Run the various command available in script with the given buildRequest
      * @param script :- The script having the various command which can be used to
