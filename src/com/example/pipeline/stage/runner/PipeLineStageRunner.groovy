@@ -3,12 +3,11 @@ package com.example.pipeline.stage.runner
 import com.example.pipeline.enums.BuildTool
 import com.example.pipeline.enums.StageStatus
 import com.example.pipeline.factory.GradlePipeLineStageFactory
+import com.example.pipeline.factory.PipeLineStageFactory
 import com.example.pipeline.model.BuildRequestDetails
 import com.example.pipeline.model.ResponseDetails
 import com.example.pipeline.model.SharedProperties
 import com.example.pipeline.stage.IPipeLineStage
-
-import javax.annotation.PostConstruct
 
 class PipeLineStageRunner {
     def script
@@ -19,11 +18,8 @@ class PipeLineStageRunner {
         this.script = script
         this.sharedProperties = new SharedProperties(script, buildRequest)
         this.script.echo "Starting the pipeline. The various properties configured are:- "
-//        String message = this?.sharedProperties?.buildRequestDetails?.toString() ?: "Unable to evaluate:- buildRequestDetails "
-//        this.script.echo message
     }
 
-    @PostConstruct
     void initialize() {
         this.script.echo "Inside PostConstruct Method:- com.example.pipeline.stage.runner.PipeLineStageRunner.initialize"
 /*DELETE THIS CODE*/
@@ -65,8 +61,7 @@ class PipeLineStageRunner {
      */
     static void run(script, BuildRequestDetails buildRequest) {
         PipeLineStageRunner stageRunner = new PipeLineStageRunner(script, buildRequest)
-        stageRunner.script.echo "Debug "
-        stageRunner.initialize()
+        stageRunner.pipeLineSteps = PipeLineStageFactory.createPipeLineStages(stageRunner.sharedProperties)
         stageRunner.runPipeLineStages()
     }
 
