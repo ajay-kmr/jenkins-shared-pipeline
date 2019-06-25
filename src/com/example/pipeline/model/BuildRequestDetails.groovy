@@ -31,9 +31,11 @@ class BuildRequestDetails {
         this.stages = Collections.unmodifiableList(stages?.collect { stage -> Stage.getInstance(stage) })
     }
 
+/*
     void setBuildTool(def buildTool) {
         this.buildTool = BuildTool.getInstance(buildTool)
     }
+*/
 
     @Override
     String toString() {

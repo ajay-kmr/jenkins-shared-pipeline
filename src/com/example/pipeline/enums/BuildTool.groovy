@@ -7,7 +7,7 @@ enum BuildTool {
 
     ;
 
-    public static BuildTool getInstance(def input) {
+    static BuildTool getInstance(def input) {
         if (input && (input instanceof BuildTool)) {
             return input
         }
