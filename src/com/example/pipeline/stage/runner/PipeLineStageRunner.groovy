@@ -8,6 +8,7 @@ import com.example.pipeline.model.SharedProperties
 import com.example.pipeline.stage.IPipeLineStage
 
 class PipeLineStageRunner {
+    final PipeLineStageFactory factory = new PipeLineStageFactory()
     final def script
     final SharedProperties sharedProperties
     final List<IPipeLineStage> pipeLineSteps
@@ -19,7 +20,7 @@ class PipeLineStageRunner {
         this.script.echo "Starting the pipeline. The various properties configured are:- "
         try {
 //            this.script.echo sharedProperties?.buildRequestDetails?.toString()
-            this.pipeLineSteps = PipeLineStageFactory.createPipeLineStages(sharedProperties)
+            this.pipeLineSteps = factory.createPipeLineStages(sharedProperties)
         } catch (Exception e) {
             e.printStackTrace()
         }
