@@ -45,6 +45,7 @@ class BuildRequestDetails {
                 ", serviceType='" + serviceType + '\'' +
                 ", deploymentRegion='" + deploymentRegion + '\'' +
                 ", pipeLineSteps=" + stages +
+                ", buildTool=" + buildTool +
                 '}'
     }
 }
