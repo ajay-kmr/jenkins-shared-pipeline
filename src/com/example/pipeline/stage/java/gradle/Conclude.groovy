@@ -4,12 +4,15 @@ import com.example.pipeline.enums.Stage
 import com.example.pipeline.enums.StageStatus
 import com.example.pipeline.model.ResponseDetails
 import com.example.pipeline.model.SharedProperties
+import com.example.pipeline.notification.NotificationService
 import com.example.pipeline.stage.PipeLineStageImpl
 
 class Conclude extends PipeLineStageImpl<String> {
+    NotificationService notificationService
 
     Conclude(SharedProperties sharedProperties) {
         super(sharedProperties, 'any', 'master', Stage.CONCLUDE)
+        notificationService = new NotificationService(script: script)
     }
 
     @Override
@@ -22,7 +25,7 @@ class Conclude extends PipeLineStageImpl<String> {
                 /**
                  * Create a file called ${environmentName}-approval.txt if not exist
                  * Update this Approval file with the details eg:-
-                 *      1) The Person who approve the this build
+                 *      1) The Person who approve this build
                  *      2) Build Time
                  *      3) Branch Name
                  *      4) Deployment Region etc
@@ -36,6 +39,7 @@ class Conclude extends PipeLineStageImpl<String> {
                  *  Send a mail to stakeholders and other developers about the deployment status
                  */
 
+                notificationService.sendEmail()
 //                script.stash name: stageName, useDefaultExcludes: false
                 responseDTO.stashName = stageName
                 stageStatus = StageStatus.SUCCESS

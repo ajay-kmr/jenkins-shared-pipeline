@@ -1,0 +1,51 @@
+
+***** How to setup Personal SMTP server for mailing *****
+
+1) We are going to use a Docker container based mail client named MailDev
+2) Configure mail client within our Jenkins to send mail
+3)Refer Link:-
+        a) https://github.com/djfarrelly/MailDev
+        b) https://danfarrelly.nyc/MailDev/
+
+
+If you want to use MailDev with Docker, you can
+use the "djfarrelly/maildev" image on Docker Hub.
+For a guide for usage with Docker, checkout the docs at- https://github.com/djfarrelly/MailDev/blob/master/docs/docker.md
+
+To get MailDev up and running quickly, run a new container using the image.
+If you don't have the image on your machine, Docker will pull it.
+
+Let's name it "maildev" and publish the interface on port 1080:
+
+    $ docker pull djfarrelly/maildev
+
+Note 1:- The MailDev webapp run at port 80. So forward port 80 of docker container to 8080 of host machine.
+So that the MailDev webapp can be accessed using http://localhost:1080
+
+Note 2:- The MailDev SMATP server run at port 25. So forward port 25 of docker container to some port eg 1025 of host machine.
+So that the MailDev SMATP server can be accessed using http://localhost:1025
+
+Note 3:- If the port is not forwarded, it will be exposed by default one.
+    $ docker run -p 1080:80 -p 1025:25 --name maildev djfarrelly/maildev
+
+Now the MailDev UI will be running at port 1080 on your virtual machine (or machine if you're running Linux).
+For example if your Docker host VM is running at 192.168.99.100,
+you can head over to http://192.168.99.100:1080 to visit the interface.
+
+Or if you are directly running in your local linux system without any virtual machine- you can navigate to
+http://localhost:1080/
+
+You can see the log to get the details of URL and port of your MailDev WebApp and MailDev SMTP server eg:-
+            ajay@ajay-thinkpad-e470:~$ docker run -p 1080:80 -p 1025:25 --name maildev djfarrelly/maildev
+            MailDev webapp running at http://0.0.0.0:80 //80 is the docker container port and not the host machine port.
+            MailDev SMTP Server running at 0.0.0.0:25 //25 is the docker container port and not the host machine port.
+
+            Note:- While running the command- $ docker run -p 1080:80 -p 1025:25 --name maildev djfarrelly/maildev,
+            we forwarded port 80 to 8080 and 25 to 1025 of host machine.
+
+            So while configuring the Jenkins Server, we need to provide following details:-
+            SMTP server:- 0.0.0.0  or localhost
+            SMTP server port:- 1025
+
+************ Configure Mail Server in Jenkins ************
+Manage Jenkins --> Configure System --> E-mail Notification

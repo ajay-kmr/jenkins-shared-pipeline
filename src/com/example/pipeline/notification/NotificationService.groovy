@@ -1,18 +1,29 @@
 package com.example.pipeline.notification
 
-import com.example.pipeline.model.EmailNotificationRequest
 import com.example.pipeline.model.ResponseDetails
 
 class NotificationService {
-    ResponseDetails<String> sendEmail(EmailNotificationRequest request) {
+    def script
+
+    ResponseDetails<String> sendEmail() {
         // https://www.oreilly.com/library/view/jenkins-2-up/9781491979587/ch04.html
-        def script = request.script
+        //https://wiki.jenkins.io/display/JENKINS/Email-ext+plugin
+        String messageBody = """
+             Check console output at <a href="${script.env.BUILD_URL}">${script.env.JOB_NAME}:${script.env.BUILD_NUMBER}</a>
+                      """
+
+        /**
+         * The default subject name can be:-
+         *      $PROJECT_NAME - Build # $BUILD_NUMBER - $BUILD_STATUS!
+         */
+
         script.emailext(
-                subject: "${request.buildStatus}: Job ${script.env.JOB_NAME} ([${script.env.BUILD_NUMBER})",
-                body: """
-       Check console output at <a href="${script.env.BUILD_URL}">
-${script.env.JOB_NAME} (${script.env.BUILD_NUMBER})</a>
-""",
+                attachLog: true,
+                compressLog: true,
+                recipientProviders: [script.developers()],
+                replyTo: 'no-reply@sharedpipeline.com',
+                subject: "${script.BUILD_STATUS}: Job ${script.env.JOB_NAME} ([${script.env.BUILD_NUMBER})",
+                body: messageBody,
                 to: "${script.BUILD_USER_EMAIL}",
                 from: 'jenkins@company.com')
     }
@@ -20,7 +31,7 @@ ${script.env.JOB_NAME} (${script.env.BUILD_NUMBER})</a>
     /**
      * Send notifications based on build status string
      */
-    def sendEmail2(script, String buildStatus = 'STARTED') {
+    def sendEmail2(String buildStatus = 'STARTED') {
         // https://www.oreilly.com/library/view/jenkins-2-up/9781491979587/ch04.html
 
         // build status of null means successful
@@ -49,7 +60,7 @@ ${script.env.JOB_NAME} (${script.env.BUILD_NUMBER})</a>
         )
     }
 
-    def slackSend(script, String buildStatus = 'STARTED') {
+    def slackSend(String buildStatus = 'STARTED') {
         //https://www.oreilly.com/library/view/jenkins-2-up/9781491979587/ch04.html
         def subject = "${buildStatus}: Job '${script.env.JOB_NAME} [${script.env.BUILD_NUMBER}]'"
         def summary = "${subject} (${script.env.BUILD_URL})"
@@ -57,7 +68,7 @@ ${script.env.JOB_NAME} (${script.env.BUILD_NUMBER})</a>
         script.slackSend(color: colorCode, message: summary)
     }
 
-    def hipchatSend(script, String buildStatus = 'STARTED') {
+    def hipchatSend(String buildStatus = 'STARTED') {
         def subject = "${buildStatus}: Job '${script.env.JOB_NAME} [${script.env.BUILD_NUMBER}]'"
         def summary = "${subject} (${script.env.BUILD_URL})"
         def (colorCode, color) = getColorAndColorCode(buildStatus)
