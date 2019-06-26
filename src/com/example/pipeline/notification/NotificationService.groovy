@@ -1,5 +1,6 @@
 package com.example.pipeline.notification
 
+import com.example.pipeline.enums.StageStatus
 import com.example.pipeline.model.ResponseDetails
 
 class NotificationService {
@@ -8,6 +9,9 @@ class NotificationService {
     ResponseDetails<String> sendEmail() {
         // https://www.oreilly.com/library/view/jenkins-2-up/9781491979587/ch04.html
         //https://wiki.jenkins.io/display/JENKINS/Email-ext+plugin
+
+        script.echo "Sending notification"
+        ResponseDetails<String> responseDetails = new ResponseDetails<>(status: false, message: "${StageStatus.FAILURE}")
         String messageBody = """
              Check console output at <a href="${script.env.BUILD_URL}">${script.env.JOB_NAME}:${script.env.BUILD_NUMBER}</a>
                       """
@@ -22,10 +26,15 @@ class NotificationService {
                 compressLog: true,
                 recipientProviders: [script.developers()],
                 replyTo: 'no-reply@sharedpipeline.com',
-                subject: "${script.BUILD_STATUS}: Job ${script.env.JOB_NAME} ([${script.env.BUILD_NUMBER})",
+//                subject: "${script.BUILD_STATUS}: Job ${script.env.JOB_NAME} ([${script.env.BUILD_NUMBER})",
+                subject: "Sample Test Message",
                 body: messageBody,
                 to: "${script.BUILD_USER_EMAIL}",
                 from: 'jenkins@company.com')
+
+        responseDetails.status = true
+        responseDetails.message = "${StageStatus.SUCCESS}"
+        responseDetails
     }
 
     /**
