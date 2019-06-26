@@ -12,7 +12,7 @@ class Conclude extends PipeLineStageImpl<String> {
 
     Conclude(SharedProperties sharedProperties) {
         super(sharedProperties, 'any', 'master', Stage.CONCLUDE)
-        notificationService = new NotificationService(script: script)
+        this.notificationService = new NotificationService(script: sharedProperties.jenkinsScript)
     }
 
     @Override
