@@ -29,6 +29,13 @@ class PipeLineStageRunner {
         stageRunner.runPipeLineStages()
     }
 
+    static void run(script, SharedProperties sharedDetails) {
+        List<IPipeLineStage> stages = PipeLineStageFactory.createPipeLineStages(sharedDetails)
+        PipeLineStageRunner stageRunner = new PipeLineStageRunner(script: script,
+                sharedProperties: sharedDetails, pipeLineSteps: stages)
+        stageRunner.runPipeLineStages()
+    }
+
     private void runPipeLineStages() {
         script.echo "Inside PipeLineStepRunner"
         try {
