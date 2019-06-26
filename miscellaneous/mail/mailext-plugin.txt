@@ -1,0 +1,47 @@
+
+MailExt plugin of Jenkins is used to send the mail.
+
+In Pipeline failed step of any stage doesn't immediately set the
+currentBuild.result to FAILURE whereas its initial value is null.
+Hence build steps that rely on the build status like Mailer Plugin or MailExt Plugin might work seemingly incorrect.
+
+You can check it by adding a debug print eg:
+
+stage 'Test'
+node {
+    try {
+        sh 'exit 1'
+    } finally {
+        println currentBuild.result  // this prints null
+        step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: 'me@me.com', sendToIndividuals: true])
+    }
+}
+
+This whole pipeline is wrapped with exception handler provided by Jenkins that's why Jenkins marks the build as failed in the the end.
+
+So if you want to utilize Mailer you need to maintain the build status properly. For instance:
+
+stage 'Test'
+node {
+    try {
+        sh 'exit 1'
+        currentBuild.result = 'SUCCESS'
+    } catch (any) {
+        currentBuild.result = 'FAILURE'
+        throw any //rethrow exception to prevent the build from proceeding
+    } finally {
+        step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: 'me@me.com', sendToIndividuals: true])
+    }
+}
+
+If you needn't to rethrow the exception you can use catchError.
+It is a Pipeline built-in which catches any exception within its scope,
+prints it into console and sets the build status. Example:
+
+stage 'Test'
+node {
+    catchError {
+        sh 'exit 1'
+    }
+    step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: 'me@me.com', sendToIndividuals: true])
+}

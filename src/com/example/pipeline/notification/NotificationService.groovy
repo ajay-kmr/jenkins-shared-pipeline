@@ -9,6 +9,7 @@ class NotificationService {
     ResponseDetails<String> sendEmail() {
         // https://www.oreilly.com/library/view/jenkins-2-up/9781491979587/ch04.html
         //https://wiki.jenkins.io/display/JENKINS/Email-ext+plugin
+        //https://stackoverflow.com/questions/37169100/use-jenkins-mailer-inside-pipeline-workflow
 
         script.echo "Sending notification"
         ResponseDetails<String> responseDetails = new ResponseDetails<>(status: false, message: "${StageStatus.FAILURE}")
@@ -18,7 +19,7 @@ class NotificationService {
 
         /**
          * The default subject name can be:-
-         *      $PROJECT_NAME - Build # $BUILD_NUMBER - $BUILD_STATUS!
+         *      $JOB_NAME - Build # $BUILD_NUMBER - $BUILD_STATUS!
          */
 
         script.emailext(
