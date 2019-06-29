@@ -1,0 +1,202 @@
+
+There are two types of syntax while creating any pipeline script/variable
+/**
+* @Refer @Link {https://www.blazemeter.com/blog/how-to-use-the-jenkins-scripted-pipeline/}
+**/
+
+Note:-
+Basically, a scripted pipeline has the following skeleton:
+node {
+	stage (‘Build’ {
+		//...
+	}
+	stage (‘Test’) {
+		//...
+	}
+}
+
+On the other hand, a declarative pipeline can be written by using more elements, as shown next:
+
+pipeline {
+	agent any
+	stages {
+        stage(‘Build’) {
+            steps {
+                //...
+            }
+        }
+        stage (‘Test’) {
+            steps {
+                //...
+            }
+        }
+    }
+}
+
+The script has the elements “pipeline”, “agent” and “steps” which are specific to Declarative Pipeline syntax; “stage” is common to both Declarative and Scripted; and finally, node” is specific for the Scripted one.
+
+“Pipeline” defines the block that will contain all the script content.
+“Agent” defines where the pipeline will be run, similar to the “node” for the scripted one.
+“Stages” contains all of the stages.
+
+
+*****************************************************************************************
+
+
+1) ***** Jenkins Scripted Pipeline:-
+    Without using block- pipeline and stages.
+    Use directly stage block
+    List of action performed using various command available in script
+    Wrap the set of actions within stage block, to consider it as an stage.
+
+    @Refer @link {https://www.blazemeter.com/blog/how-to-use-the-jenkins-scripted-pipeline/}
+Example:-
+----------------- START Of Script -----------------
+    echo "Any Random Command can be here"
+    echo "Any of the action performed here will NOT be part of any stage"
+
+    stage('Stage 1'){
+        echo "Any of the action performed here will be part of this stage:- Stage 1"
+    }
+    stage('Stage 2'){
+        echo "Any of the action performed here will be part of this stage:- Stage 2"
+    }
+
+    echo "Any Random Command can be here"
+    echo "Any of the action performed here will NOT be part of any stage"
+
+----------------- END Of Script -----------------
+Note:- If you are following this syntax- 1 i.e scripted pipeline syntax,
+You should be cautious while performing post build activities eg sending mail with build status.
+@Refer file mailext-plugin.txt for more details
+
+
+2) ***** Using block- pipeline
+Example:-
+----------------- START Of Script -----------------
+echo "Any Random Command can be here"
+echo "Any of the action performed here will NOT be part of any stage"
+
+Map pipelineParams = [:]
+//initialize pipelineParams
+
+pipeline {
+        // We CAN NOT put any random action here eg echo "Hello". Here only valid block eg agent, stages is expected
+        agent any
+        stages {
+            // We CAN NOT put any random action here eg echo "Hello". Here only valid block eg agent, stage is expected
+            stage('checkout git') {
+                // We CAN NOT put any random action here eg echo "Hello". Here only valid block eg steps is expected
+                steps {
+                    // We CAN put any random action here eg echo "Hello"
+                    git branch: pipelineParams.branch, credentialsId: 'GitCredentials', url: pipelineParams.scmUrl
+                }
+            }
+
+            stage('build') {
+                steps {
+                    sh 'mvn clean package -DskipTests=true'
+                }
+            }
+
+            stage ('test') {
+                steps {
+                    parallel (
+                        "unit tests": { sh 'mvn test' },
+                        "integration tests": { sh 'mvn integration-test' }
+                    )
+                }
+            }
+
+            stage('deploy developmentServer'){
+                steps {
+                    deploy(pipelineParams.developmentServer, pipelineParams.serverPort)
+                }
+            }
+
+            stage('deploy staging'){
+                steps {
+                    deploy(pipelineParams.stagingServer, pipelineParams.serverPort)
+                }
+            }
+
+            stage('deploy production'){
+                steps {
+                    deploy(pipelineParams.productionServer, pipelineParams.serverPort)
+                }
+            }
+        }
+        post {
+            failure {
+                mail to: pipelineParams.email, subject: 'Pipeline failed', body: "${env.BUILD_URL}"
+            }
+        }
+    }
+}
+
+----------------- END Of Script -----------------
+
+*************************
+Syntax 3:- You can also mix both syntax eg (Syntax 1 and then Syntax 2) or (Syntax 2 and then Syntax 1):-
+----------------- START Of Script -----------------
+//Syntax 1
+pipeline {
+        agent any
+        stages {
+            stage('deploy'){
+                steps {
+                    echo "Hello from script"
+                }
+            }
+        }
+        post {
+            failure {
+                echo "Failed from post"
+            }
+        }
+    }
+
+//Syntax 2
+    echo "Any Random Command can be here"
+    echo "Any of the action performed here will NOT be part of any stage"
+
+    stage('Stage 1'){
+        echo "Any of the action performed here will be part of this stage:- Stage 1"
+     }
+    stage('Stage 2'){
+        echo "Any of the action performed here will be part of this stage:- Stage 2"
+    }
+
+    echo "Any Random Command can be here"
+    echo "Any of the action performed here will NOT be part of any stage"
+
+----------------- END Of Script -----------------
+Differences from plain Groovy
+In order to provide durability, which means that running Pipelines can survive a restart of
+the Jenkins master, Scripted Pipeline must serialize data back to the master.
+Due to this design requirement, some Groovy idioms such as
+collection.each { item → /* perform operation */ } are not fully supported.
+See JENKINS-27421 and JENKINS-26481 for more information.
+
+Syntax Comparison
+When Jenkins Pipeline was first created, Groovy was selected as the foundation.
+Jenkins has long shipped with an embedded Groovy engine to provide advanced scripting
+capabilities for admins and users alike. Additionally, the implementors of Jenkins Pipeline
+found Groovy to be a solid foundation upon which to build what is now referred to as the
+"Scripted Pipeline" DSL. [2].
+
+As it is a fully featured programming environment, Scripted Pipeline offers a tremendous
+amount of flexibility and extensibility to Jenkins users. The Groovy learning-curve isn’t
+typically desirable for all members of a given team, so Declarative Pipeline was created to
+offer a simpler and more opinionated syntax for authoring Jenkins Pipeline.
+
+Both are fundamentally the same Pipeline sub-system underneath.
+They are both durable implementations of "Pipeline as code."
+They are both able to use steps built into Pipeline or provided by plugins.
+Both are able to utilize Shared Libraries
+
+Where they differ however is in syntax and flexibility.
+Declarative limits what is available to the user with a more strict and pre-defined structure,
+making it an ideal choice for simpler continuous delivery pipelines.
+Scripted provides very few limits, insofar that the only limits on structure and syntax
+tend to be defined by Groovy itself, rather than any Pipeline-specific systems, making it an ideal choice for power-users and those with more complex requirements. As the name implies, Declarative Pipeline encourages a declarative programming model. [3] Whereas Scripted Pipelines follow a more imperative programming model. [4]

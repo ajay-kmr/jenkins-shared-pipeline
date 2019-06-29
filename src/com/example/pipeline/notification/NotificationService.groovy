@@ -4,9 +4,15 @@ import com.example.pipeline.enums.StageStatus
 import com.example.pipeline.model.ResponseDetails
 
 class NotificationService {
-    def script
 
-    ResponseDetails<String> sendEmail() {
+    static void sendApprovalMailForBuildPromotion(def script) {
+        script.emailext(to: 'devops@example.com',
+                subject: "Job '${script.JOB_NAME}' (${script.BUILD_NUMBER}) is waiting for input",
+                body: "Please go to ${script.BUILD_URL} and verify the build or you can directly approve from:- ${script.BUILD_URL}input/"
+        )
+    }
+
+    static ResponseDetails<String> sendEmail(def script) {
         // https://www.oreilly.com/library/view/jenkins-2-up/9781491979587/ch04.html
         //https://wiki.jenkins.io/display/JENKINS/Email-ext+plugin
         //https://stackoverflow.com/questions/37169100/use-jenkins-mailer-inside-pipeline-workflow
@@ -41,7 +47,7 @@ class NotificationService {
     /**
      * Send notifications based on build status string
      */
-    def sendEmail2(String buildStatus = 'STARTED') {
+    static def sendEmail2(def script, String buildStatus = 'STARTED') {
         // https://www.oreilly.com/library/view/jenkins-2-up/9781491979587/ch04.html
 
         // build status of null means successful
@@ -70,7 +76,7 @@ class NotificationService {
         )
     }
 
-    def slackSend(String buildStatus = 'STARTED') {
+    static def slackSend(def script, String buildStatus = 'STARTED') {
         //https://www.oreilly.com/library/view/jenkins-2-up/9781491979587/ch04.html
         def subject = "${buildStatus}: Job '${script.env.JOB_NAME} [${script.env.BUILD_NUMBER}]'"
         def summary = "${subject} (${script.env.BUILD_URL})"
@@ -78,7 +84,7 @@ class NotificationService {
         script.slackSend(color: colorCode, message: summary)
     }
 
-    def hipchatSend(String buildStatus = 'STARTED') {
+    static def hipchatSend(def script, String buildStatus = 'STARTED') {
         def subject = "${buildStatus}: Job '${script.env.JOB_NAME} [${script.env.BUILD_NUMBER}]'"
         def summary = "${subject} (${script.env.BUILD_URL})"
         def (colorCode, color) = getColorAndColorCode(buildStatus)

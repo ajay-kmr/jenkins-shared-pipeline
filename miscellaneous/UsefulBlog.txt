@@ -1,0 +1,13 @@
+
+
+A very nice explanation of jenkins declarative syntax can be found at:-
+    https://www.blazemeter.com/blog/how-to-use-the-jenkins-declarative-pipeline/
+
+A very nice explanation of jenkins Scripted pipeline syntax can be found at:-
+    https://www.blazemeter.com/blog/how-to-use-the-jenkins-scripted-pipeline/
+    https://jenkins.io/doc/book/pipeline/syntax/#scripted-pipeline
+
+Promoted Build Plugin:-
+https://www.cloudbees.com/blog/another-look-jenkins-promoted-builds-plugin
+https://www.cloudbees.com/blog/continuous-integration-mobile-apps-jenkins-promoted-builds-qa-process-and-beta-distribution
+

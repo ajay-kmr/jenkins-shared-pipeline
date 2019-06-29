@@ -3,7 +3,8 @@ MailExt plugin of Jenkins is used to send the mail.
 
 In Pipeline failed step of any stage doesn't immediately set the
 currentBuild.result to FAILURE whereas its initial value is null.
-Hence build steps that rely on the build status like Mailer Plugin or MailExt Plugin might work seemingly incorrect.
+Hence build steps that rely on the build status like Mailer Plugin or MailExt Plugin might
+work seemingly incorrect.
 
 You can check it by adding a debug print eg:
 
@@ -45,3 +46,32 @@ node {
     }
     step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: 'me@me.com', sendToIndividuals: true])
 }
+
+****************************************************
+https://www.oreilly.com/library/view/jenkins-2-up/9781491979587/ch04.html
+
+The following code listing shows an example of using the basic mail step in
+a Scripted Pipeline. As explained in other chapters of the book,
+the try-catch-finally block is the primary way with a Scripted Pipeline to ensure that
+ post-processing is always done regardless of success or failure:
+
+node ('worker_node1') {
+  try {
+      ...
+    }
+    currentBuild.result = 'SUCCESS'
+  }
+  catch (err) {
+    currentBuild.result = 'FAILURE'
+  }
+  finally {
+    mail to: 'bcl@nclasters.org',
+      subject: "Status of pipeline: ${currentBuild.fullDisplayName}",
+      body: "${env.BUILD_URL} has result ${currentBuild.result}"
+  }
+}
+
+SETTING BUILD RESULTS
+You may have noticed that we specifically set the currentBuild.result value in this listing.
+The reason for this is that you can’t depend on pipeline steps to explicitly set the
+build result, and if the build result is not set the emails will show a status of null.
