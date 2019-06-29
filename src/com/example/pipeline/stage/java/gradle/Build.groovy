@@ -20,7 +20,7 @@ class Build extends PipeLineStageImpl<String> {
                 echo "Running stage ${stageName}.."
                 unStash Stage.PREPARE.displayName
                 sh "./gradlew clean build"
-                stash name: stageName
+                stash stageName
                 responseDTO.stashName = stageName
                 stageStatus = StageStatus.SUCCESS
             }
