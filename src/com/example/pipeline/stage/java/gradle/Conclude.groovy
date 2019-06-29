@@ -4,15 +4,12 @@ import com.example.pipeline.enums.Stage
 import com.example.pipeline.enums.StageStatus
 import com.example.pipeline.model.ResponseDetails
 import com.example.pipeline.model.SharedProperties
-import com.example.pipeline.notification.NotificationService
 import com.example.pipeline.stage.PipeLineStageImpl
 
 class Conclude extends PipeLineStageImpl<String> {
-    NotificationService notificationService
 
     Conclude(SharedProperties sharedProperties) {
         super(sharedProperties, 'any', 'master', Stage.CONCLUDE)
-        this.notificationService = new NotificationService(script: sharedProperties.jenkinsScript)
     }
 
     @Override
