@@ -49,7 +49,7 @@ class GenerateReport extends PipeLineStageImpl<String> {
     private void generateUnitTestResult() {
         /*Note that here we are unstashing content because it was produced on separate nodes running in a parallel step:*/
 //        script.unstash 'unit-test-reports'
-        script.unstash Stage.BUILD.displayName
+//        script.unstash Stage.BUILD.displayName
 
         script.publishHTML(target: [
                 allowMissing         : false,
