@@ -17,10 +17,10 @@ class Build extends PipeLineStageImpl<String> {
         ResponseDetails<String> responseDTO = new ResponseDetails<>(status: false, message: "Stage ${stage} failed")
         script.node {
             script.stage(stageName) {
-                script.echo "Running stage ${stageName}.."
-                script.unstash Stage.PREPARE.displayName
-                script.sh "./gradlew clean build"
-                script.stash name: stageName, useDefaultExcludes: false
+                echo "Running stage ${stageName}.."
+                unStash Stage.PREPARE.displayName
+                sh "./gradlew clean build"
+                stash name: stageName, useDefaultExcludes: false
                 responseDTO.stashName = stageName
                 stageStatus = StageStatus.SUCCESS
             }

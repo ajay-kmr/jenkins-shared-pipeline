@@ -22,6 +22,23 @@ abstract class PipeLineStageImpl<T> implements IPipeLineStage<T> {
         this.stage = stage
     }
 
+    def stash = { String stashName ->
+        script.stash name: stashName, useDefaultExcludes: false
+    }
+
+    def unStash = { String stashName ->
+        script.unstash stashName
+    }
+
+    def echo = { def outputToEcho ->
+        script.echo outputToEcho
+    }
+
+    def sh = { def commandToExecute ->
+        script.sh commandToExecute
+    }
+
+
     def executeAndReturnStdOutput(String command) {
         script.echo "At com.example.pipeline.stage.PipeLineStepImpl.executeAndReturnStdOutput"
         return execute(command, true)

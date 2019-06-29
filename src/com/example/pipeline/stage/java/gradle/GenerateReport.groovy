@@ -57,7 +57,7 @@ class GenerateReport extends PipeLineStageImpl<String> {
                 keepAll              : true,
                 //TODO:- Add the path of first Module test report directory and files
 //                        reportDir            : 'api/build/reports/test',
-                reportDir            : 'build/reports/tests/test/index.html',
+                reportDir            : 'build/reports/tests/test',
                 reportFiles          : 'index.html',
                 reportName           : "Unit Testing Results"
         ])
@@ -76,7 +76,7 @@ class GenerateReport extends PipeLineStageImpl<String> {
                 keepAll              : true,
                 //TODO:- Add the path of first Module test report directory and files
 //                        reportDir            : 'api/build/reports/test',
-                reportDir            : 'build/reports/tests/test/index.html',
+                reportDir            : 'build/reports/tests/test',
                 reportFiles          : 'index.html',
                 reportName           : "Integration Testing Results"
         ])
