@@ -56,3 +56,8 @@ Test Results - UserServiceTest.html
 /dist/
 /nbdist/
 /.nb-gradle/
+
+### Jenkins Workspace:-
+jenkins_workspace
+jenkins_home
+data
