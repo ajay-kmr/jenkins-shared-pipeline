@@ -1,0 +1,16 @@
+
+*********** Download and Run Sonarqube Server ****************** -- STARTS -- ****
+https://docs.sonarqube.org/latest/setup/get-started-2-minutes/
+
+https://funnelgarden.com/sonarqube-jenkins-docker/
+*********** Download and Run Sonarqube Server ****************** -- ENDS -- ****
+
+******************* Setup SonarScanner for gradle ****************-- STARTS -- *****
+https://docs.sonarqube.org/latest/analysis/scan/sonarscanner-for-gradle/
+
+https://github.com/SonarSource/sonar-scanning-examples/tree/master/sonarqube-scanner-gradle
+
+https://docs.sonarqube.org/display/SCAN/Analyzing+with+SonarQube+Scanner+for+Gradle
+
+******************* Setup SonarScanner for gradle ****************-- ENDS -- *****
+
