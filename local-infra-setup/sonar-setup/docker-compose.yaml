@@ -1,0 +1,32 @@
+version: "3.7"
+
+volumes:
+  sonarqube_home:
+    driver: local
+    driver_opts:
+      type: none
+      #Note:- the use of $PWD which evaluates to present working directory and need not to define in .env file.
+      #However jenkins_workspace needs to be defined in .env files
+      device: $PWD/${SONARQUBE_HOME}
+      o: bind
+
+services:
+  sonar:
+    ## By default you can login as admin with password admin,
+    image: sonarqube:7.9.2-community
+    container_name: sonar
+    hostname: sonar
+    ports:
+      - 9000:9000
+    volumes:
+      # See https://hub.docker.com/_/sonarqube
+      - $PWD/${SONARQUBE_HOME}/conf:/opt/sonarqube/conf:rw
+      - $PWD/${SONARQUBE_HOME}/extensions:/opt/sonarqube/extensions:rw
+      - $PWD/${SONARQUBE_HOME}/extensions/downloads:/opt/sonarqube/extensions/downloads:rw
+      - $PWD/${SONARQUBE_HOME}/logs:/opt/sonarqube/logs:rw
+      - $PWD/${SONARQUBE_HOME}/data:/opt/sonarqube/data:rw
+    #    environment:
+    ##See:- https://hub.docker.com/_/sonarqube
+#      - sonar.jdbc.url=jdbc:postgresql://localhost/sonarqube
+#      - sonar.jdbc.username=sonar
+#      - sonar.jdbc.password=sonar

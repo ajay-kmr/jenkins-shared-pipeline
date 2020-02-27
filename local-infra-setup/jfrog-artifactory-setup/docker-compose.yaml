@@ -10,7 +10,7 @@ volumes:
       type: none
       #Note:- the use of $PWD which evaluates to present working directory and need not to define in .env file.
       #However jenkins_workspace needs to be defined in .env files
-      device: $PWD/${JFROG_ARTIFACTORY_WORKSPACE}/artifactory_data:ro
+      device: $PWD/${JFROG_ARTIFACTORY_WORKSPACE}/artifactory_data
       o: bind
   postgresql_data:
     driver: local
@@ -18,7 +18,7 @@ volumes:
       type: none
       #Note:- the use of $PWD which evaluates to present working directory and need not to define in .env file.
       #However jenkins_workspace needs to be defined in .env files
-      device: $PWD/${JFROG_ARTIFACTORY_WORKSPACE}/postgresql_data:ro
+      device: $PWD/${JFROG_ARTIFACTORY_WORKSPACE}/postgresql_data
       o: bind
 services:
   postgresql:
