@@ -1,0 +1,52 @@
+#Create A Demo Pod
+# kubectl create -f pod.yaml
+#kubectl get pod demo
+#kubectl logs --tail=3 demo
+#kubectl delete pod demo
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: demo
+  labels:
+    app: demo
+spec:
+  containers:
+    - name: fedora
+      image: master.turbot:5000/fedora:24-demo
+      imagePullPolicy: Always
+  restartPolicy: Always
+
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: example-app
+  labels:
+    app: example-app
+    version: v1
+    role: backend
+spec:
+  containers:
+    - name: java
+      image: companyname/java
+      imagePullPolicy: Always
+      ports:
+        - containerPort: 443
+      volumeMounts:
+        - mountPath: /volumes/logs
+          name: logs
+    - name: logger
+      image: companyname/logger:v1.2.3
+      imagePullPolicy: Always
+      ports:
+        - containerPort: 9999
+      volumeMounts:
+        - mountPath: /logs
+          name: logs
+    - name: monitoring
+      image: companyname/monitoring:v4.5.6
+      imagePullPolicy: Always
+      ports:
+        - containerPort: 1234

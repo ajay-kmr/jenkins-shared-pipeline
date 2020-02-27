@@ -1,0 +1,20 @@
+#Create A Demo PV
+# kubectl create -f pv.yaml
+#kubectl get pv demo
+#kubectl delete pv demo
+
+#Create a Persistent volume of 5 Gegabytes
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  labels:
+    name: demo
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Recycle
+  nfs:
+    path: /location/on/server/where/volume/is/provisioned
+    server: your.server.address.eg:-master.turbot

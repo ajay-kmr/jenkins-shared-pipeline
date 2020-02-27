@@ -1,0 +1,16 @@
+#Create A Demo PV
+# kubectl create -f pvc.yaml
+#kubectl get pvc demo
+#kubectl delete pvc demo
+
+#Claim a Persistent volume of 2 Gigabytes
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: demo
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi

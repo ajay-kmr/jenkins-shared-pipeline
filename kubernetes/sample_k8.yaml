@@ -1,0 +1,55 @@
+---
+#Create Pod
+apiVersion: v1
+kind: Pod
+metadata:
+  name: application-1
+  labels:
+    app: application-1
+spec:
+  containers:
+    - name: application-1
+      image:
+      imagePullPolicy: IfNotPresent
+  restartPolicy: Always
+---
+#Create Namespace
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: custom-namespace
+spec:
+  finalizers:
+    - need_to_explore
+
+---
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: frontEndApplication
+  labels:
+    app: guestBook
+    tier: frontendApplication
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      tier: frontendApplication
+  template:
+    metadata:
+      labels:
+        app: guestBook
+        tier: frontendApplication
+    spec:
+      containers:
+        - name: php-redis
+          image: gcr.io/google_samples/gb-frontend:v3
+          resources:
+            limits:
+              memory: 1000Mi
+            requests:
+              cpu: 100m
+              memory: 100Mi
+          ports:
+            - containerPort: 80
+              hostPort: 8080
