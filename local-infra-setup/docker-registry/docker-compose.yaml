@@ -1,0 +1,69 @@
+version: "3.7"
+
+#See:- https://docs.docker.com/registry/deploying/
+# Run with basic auth:- https://docs.docker.com/registry/deploying/#native-basic-auth
+## X509 errors: X509 errors usually indicate that you are attempting to use a self-signed certificate without configuring the Docker daemon correctly. See run an insecure registry.:- https://docs.docker.com/registry/insecure/
+
+services:
+  docker_registry:
+    #    restart: always
+    image: registry:2.6.2
+    container_name: docker_registry
+    hostname: docker_registry
+    ports:
+      - 5000:5000
+    networks:
+      - docker_registry_network
+    environment:
+      #      REGISTRY_HTTP_TLS_CERTIFICATE: /certs/domain.crt
+      #      REGISTRY_HTTP_TLS_KEY: /certs/domain.key
+      REGISTRY_AUTH: htpasswd
+      REGISTRY_AUTH_HTPASSWD_PATH: /auth/htpasswd
+      REGISTRY_AUTH_HTPASSWD_REALM: Registry Realm
+    volumes:
+      - docker_registry_data:/var/lib/registry
+      - docker_registry_certs:/certs
+      - docker_registry_auth:/auth
+      - ${PWD}/${docker_registry_config}/config/credentials.yaml:/etc/docker/registry/config.yml
+
+  docker_registry_ui:
+    image: joxit/docker-registry-ui:static
+    ports:
+      - 82  :80
+    environment:
+      - REGISTRY_TITLE=My Private Docker Registry
+      - REGISTRY_URL=http://docker_registry:5000
+    depends_on:
+      - docker_registry
+    networks:
+      - docker_registry_network
+
+
+networks:
+  docker_registry_network:
+
+volumes:
+  docker_registry_auth:
+    driver: local
+    driver_opts:
+      type: none
+      #Note:- the use of $PWD which evaluates to present working directory and need not to define in .env file.
+      #However jenkins_workspace needs to be defined in .env files
+      device: $PWD/auth
+      o: bind
+  docker_registry_certs:
+    driver: local
+    driver_opts:
+      type: none
+      #Note:- the use of $PWD which evaluates to present working directory and need not to define in .env file.
+      #However jenkins_workspace needs to be defined in .env files
+      device: $PWD/certs
+      o: bind
+  docker_registry_data:
+    driver: local
+    driver_opts:
+      type: none
+      #Note:- the use of $PWD which evaluates to present working directory and need not to define in .env file.
+      #However jenkins_workspace needs to be defined in .env files
+      device: $PWD/data
+      o: bind

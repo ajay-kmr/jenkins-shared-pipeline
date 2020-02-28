@@ -66,6 +66,42 @@ volumes:
       o: bind
   ######## SONARQUBE VOLUMES --ENDS-- ########
 
+  ######## Docker Registry VOLUMES --STARTS-- ########
+  docker_registry_auth:
+    driver: local
+    driver_opts:
+      type: none
+      #Note:- the use of $PWD which evaluates to present working directory and need not to define in .env file.
+      #However jenkins_workspace needs to be defined in .env files
+      device: $PWD/docker-registry/auth
+      o: bind
+  docker_registry_config:
+    driver: local
+    driver_opts:
+      type: none
+      #Note:- the use of $PWD which evaluates to present working directory and need not to define in .env file.
+      #However jenkins_workspace needs to be defined in .env files
+      device: $PWD/docker-registry/config/credentials.yaml
+      o: bind
+  docker_registry_certs:
+    driver: local
+    driver_opts:
+      type: none
+      #Note:- the use of $PWD which evaluates to present working directory and need not to define in .env file.
+      #However jenkins_workspace needs to be defined in .env files
+      device: $PWD/docker-registry/certs
+      o: bind
+  docker_registry_data:
+    driver: local
+    driver_opts:
+      type: none
+      #Note:- the use of $PWD which evaluates to present working directory and need not to define in .env file.
+      #However jenkins_workspace needs to be defined in .env files
+      device: $PWD/docker-registry/data
+      o: bind
+
+  ######## Docker Registry VOLUMES --ENDS-- ########
+
 services:
   jenkins:
     build:
