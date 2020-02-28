@@ -1,0 +1,25 @@
+version: '3.7'
+
+## Learn how to setup named volume in docker-compose from:-
+#  http://blog.code4hire.com/2018/06/define-named-volume-with-host-mount-in-the-docker-compose-file/
+volumes:
+  jenkins_workspace:
+    driver: local
+    driver_opts:
+      type: none
+      #Note:- the use of $PWD which evaluates to present working directory and need not to define in .env file.
+      #However jenkins_workspace needs to be defined in .env files
+      device: $PWD/data
+      o: bind
+
+services:
+  jenkins:
+    build:
+      context: .
+    container_name: jenkins
+    hostname: jenkins
+    restart: always
+    ports:
+      - 80:8080
+    volumes:
+      - jenkins_workspace:/var/jenkins_home
