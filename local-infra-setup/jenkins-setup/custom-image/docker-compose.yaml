@@ -1,7 +1,4 @@
-version: "3.7"
-networks:
-  jenkins-shared-network:
-    driver: bridge
+version: '3.7'
 
 ## Learn how to setup named volume in docker-compose from:-
 #  http://blog.code4hire.com/2018/06/define-named-volume-with-host-mount-in-the-docker-compose-file/
@@ -12,18 +9,17 @@ volumes:
       type: none
       #Note:- the use of $PWD which evaluates to present working directory and need not to define in .env file.
       #However jenkins_workspace needs to be defined in .env files
-      device: $PWD/${jenkins_workspace}
+      device: $PWD/data
       o: bind
+
 services:
   jenkins:
-    ##https://hub.docker.com/_/jenkins
-    image: jenkins:2.60.3
+    build:
+      context: .
     container_name: jenkins
     hostname: jenkins
+    restart: always
     ports:
-      - 8080:8080
-      - 50000:50000
-    networks:
-      - jenkins-shared-network
+      - 80:8080
     volumes:
       - jenkins_workspace:/var/jenkins_home

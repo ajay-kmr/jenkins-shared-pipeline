@@ -1,35 +1,36 @@
 version: "3.7"
 
-
-services:
-  sonar:
-    ## By default you can login as admin with password admin,
-    image: sonarqube:7.9.2-community
-    container_name: sonar
-    hostname: sonar
-    ports:
-      - 90:9000
-    volumes:
-      # See https://hub.docker.com/_/sonarqube
-      - sonarqube_conf:/opt/sonarqube/conf:rw
-      - sonarqube_extensions:/opt/sonarqube/extensions:rw
-      - sonarqube_downloads:/opt/sonarqube/extensions/downloads:rw
-      - sonarqube_logs:/opt/sonarqube/logs:rw
-      - sonarqube_data:/opt/sonarqube/data:rw
-    #    environment:
-    ##See:- https://hub.docker.com/_/sonarqube
-#      - sonar.jdbc.url=jdbc:postgresql://localhost/sonarqube
-#      - sonar.jdbc.username=sonar
-#      - sonar.jdbc.password=sonar
-
 volumes:
+  ## Learn how to setup named volume in docker-compose from:-
+  #  http://blog.code4hire.com/2018/06/define-named-volume-with-host-mount-in-the-docker-compose-file/
+  jenkins_workspace:
+    driver: local
+    driver_opts:
+      type: none
+      #Note:- the use of $PWD which evaluates to present working directory and need not to define in .env file.
+      #However jenkins_workspace needs to be defined in .env files
+      device: $PWD/jenkins-setup/custom-image/data
+      o: bind
+  artifactory_data:
+    driver: local
+    driver_opts:
+      device: $PWD/jfrog-artifactory-setup/data/artifactory_data
+      o: bind
+      type: none
+  postgresql_data:
+    driver: local
+    driver_opts:
+      device: $PWD/jfrog-artifactory-setup/data/postgresql_data
+      o: bind
+      type: none
+  ######## SONARQUBE VOLUMES --STARTS-- ########
   sonarqube_conf:
     driver: local
     driver_opts:
       type: none
       #Note:- the use of $PWD which evaluates to present working directory and need not to define in .env file.
       #However jenkins_workspace needs to be defined in .env files
-      device: $PWD/data/conf
+      device: $PWD/sonar-setup/data/conf
       o: bind
   sonarqube_extensions:
     driver: local
@@ -37,7 +38,7 @@ volumes:
       type: none
       #Note:- the use of $PWD which evaluates to present working directory and need not to define in .env file.
       #However jenkins_workspace needs to be defined in .env files
-      device: $PWD/data/extensions
+      device: $PWD/sonar-setup/data/extensions
       o: bind
   sonarqube_downloads:
     driver: local
@@ -45,7 +46,7 @@ volumes:
       type: none
       #Note:- the use of $PWD which evaluates to present working directory and need not to define in .env file.
       #However jenkins_workspace needs to be defined in .env files
-      device: $PWD/data/extensions/downloads
+      device: $PWD/sonar-setup/data/extensions/downloads
       o: bind
   sonarqube_logs:
     driver: local
@@ -53,7 +54,7 @@ volumes:
       type: none
       #Note:- the use of $PWD which evaluates to present working directory and need not to define in .env file.
       #However jenkins_workspace needs to be defined in .env files
-      device: $PWD/data/logs
+      device: $PWD/sonar-setup/data/logs
       o: bind
   sonarqube_data:
     driver: local
@@ -61,5 +62,11 @@ volumes:
       type: none
       #Note:- the use of $PWD which evaluates to present working directory and need not to define in .env file.
       #However jenkins_workspace needs to be defined in .env files
-      device: $PWD/data/data
+      device: $PWD/sonar-setup/data/data
       o: bind
+  ######## SONARQUBE VOLUMES --ENDS-- ########
+
+services:
+  jenkins:
+    build:
+      context: $PWD/jenkins-setup/custom-image
